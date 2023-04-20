@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="116b776b-b54e-4650-a4c0-72305054afd6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/indexLayout.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/jsLibraryMappings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/.npmrc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/app.d.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/app.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/ApiService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/routes/__layout.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/static/favicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/svelte.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/vite.config.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controller.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/index.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/router.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/tsconfig.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="__layout" />
+        <option value="App" />
+        <option value="map" />
+        <option value="__layout.svelte" />
+        <option value="ApiService" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2ObJIOeUqD4e5Ot5sQ4UCcQv5Q4" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "javascript.nodejs.core.library.configured.version": "19.2.0",
+    "javascript.nodejs.core.library.typings.version": "18.15.11",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "settings.typescriptcompiler",
+    "ts.external.directory.path": "/Users/dannygold/Documents/GitHub/TerraSounds/server/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="116b776b-b54e-4650-a4c0-72305054afd6" name="Changes" comment="" />
+      <created>1681823267706</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1681823267706</updated>
+      <workItem from="1681823273384" duration="39774000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/server/index.js" />
+        <option value="$PROJECT_DIR$/server/controller.js" />
+        <option value="$PROJECT_DIR$/server/router.js" />
+        <option value="$PROJECT_DIR$/server/model.js" />
+        <option value="$PROJECT_DIR$/server/router.js.map" />
+        <option value="$PROJECT_DIR$/server/controller.js.map" />
+        <option value="$PROJECT_DIR$/server/index.js.map" />
+        <option value="$PROJECT_DIR$/server/model.js.map" />
+        <option value="$PROJECT_DIR$/myapp/src/main.js" />
+      </list>
+    </option>
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
