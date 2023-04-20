@@ -4,7 +4,7 @@ import type { GoogleEventsParameters } from 'serpapi';
 
 export default async function getEvents(req:Request,res:Response) : Promise<void> {
     try {
-        const events = await getEventsFromApi();
+        const events = await getEventsFromApi(req.params.location);
         res.status(200);
         console.log(events)
         res.send(events);

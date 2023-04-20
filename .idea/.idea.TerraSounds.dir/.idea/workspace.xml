@@ -2,12 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="116b776b-b54e-4650-a4c0-72305054afd6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/myapp/src/lib/styles.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/Homescreen.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/NavBar.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/src/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/app.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/lib/ApiService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/ApiService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/router.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +29,8 @@
         <option value="ApiService" />
         <option value="TypeScript File" />
         <option value="CSS File" />
+        <option value="NavBar" />
+        <option value="homescreen" />
       </list>
     </option>
   </component>
@@ -62,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1681823267706</updated>
-      <workItem from="1681823273384" duration="45363000" />
+      <workItem from="1681823273384" duration="66337000" />
     </task>
     <servers />
   </component>
