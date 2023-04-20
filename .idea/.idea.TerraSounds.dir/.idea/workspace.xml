@@ -2,33 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="116b776b-b54e-4650-a4c0-72305054afd6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/projectSettingsUpdater.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/.npmrc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/app.d.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/app.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/lib/ApiService.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/routes/__layout.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/static/favicon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/svelte.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/vite.config.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/controller.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/index.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/model.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/router.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/app.html" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/app.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +23,7 @@
         <option value="__layout.svelte" />
         <option value="ApiService" />
         <option value="TypeScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -67,6 +47,7 @@
     "WebServerToolWindowFactoryState": "false",
     "javascript.nodejs.core.library.configured.version": "19.2.0",
     "javascript.nodejs.core.library.typings.version": "18.15.11",
+    "list.type.of.created.stylesheet": "CSS",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "settings.typescriptcompiler",
     "ts.external.directory.path": "/Users/dannygold/Documents/GitHub/TerraSounds/server/node_modules/typescript/lib",
@@ -81,7 +62,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1681823267706</updated>
-      <workItem from="1681823273384" duration="39774000" />
+      <workItem from="1681823273384" duration="45363000" />
     </task>
     <servers />
   </component>

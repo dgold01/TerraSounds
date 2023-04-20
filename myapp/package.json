@@ -22,6 +22,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@googlemaps/js-api-loader": "^1.15.1"
+		"@googlemaps/js-api-loader": "^1.15.1",
+		"gm-infobox-v3": "^1.1.19",
+		"google-maps-infobox": "^2.0.0"
 	}
 }
