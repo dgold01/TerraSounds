@@ -23,6 +23,7 @@
 	"type": "module",
 	"dependencies": {
 		"@googlemaps/js-api-loader": "^1.15.1",
+		"flowbite-svelte": "^0.34.9",
 		"gm-infobox-v3": "^1.1.19",
 		"google-maps-infobox": "^2.0.0",
 		"info-bubble": "^0.0.1"

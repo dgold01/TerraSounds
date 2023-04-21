@@ -2,17 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="116b776b-b54e-4650-a4c0-72305054afd6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/myapp/src/lib/Homescreen.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/lib/NavBar.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/CitySearch.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/src/lib/ApiService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/ApiService.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/lib/Homescreen.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Homescreen.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/lib/NavBar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/NavBar.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controller.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/router.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +29,7 @@
         <option value="CSS File" />
         <option value="NavBar" />
         <option value="homescreen" />
+        <option value="citySearchBox" />
       </list>
     </option>
   </component>
@@ -45,22 +44,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "javascript.nodejs.core.library.configured.version": "19.2.0",
-    "javascript.nodejs.core.library.typings.version": "18.15.11",
-    "list.type.of.created.stylesheet": "CSS",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.typescriptcompiler",
-    "ts.external.directory.path": "/Users/dannygold/Documents/GitHub/TerraSounds/server/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;19.2.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;18.15.11&quot;,
+    &quot;list.type.of.created.stylesheet&quot;: &quot;CSS&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/dannygold/Documents/GitHub/TerraSounds/server/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -69,7 +68,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1681823267706</updated>
-      <workItem from="1681823273384" duration="66337000" />
+      <workItem from="1681823273384" duration="77421000" />
+      <workItem from="1682073794814" duration="7861000" />
     </task>
     <servers />
   </component>

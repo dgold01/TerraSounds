@@ -1,8 +1,12 @@
     
-    <script>
+    <script lang="ts">
+        import {onMount} from "svelte";
+        import CitySearch from "./CitySearch.svelte";
         export let handleClick
+        export let handleSearch
+        export let showSearch
+        export let handleSearchClick
     </script>
-
     <div class="container">
         <div class="header">
             <h1 class="logo">TerraSounds</h1>
@@ -13,12 +17,18 @@
             </div>
         </div>
         <div class="hero">
+            <span>
+            <button id ='current' class="cta" on:click={()=>handleClick}>Current Location</button>
+            <button id ='choose' class="cta" on:click= {()=>handleSearch} >Choose Location</button>
+            {#if showSearch}
+            <CitySearch handleSearchClick = {handleSearchClick} class = ''></CitySearch>
+            {/if}
+            </span>
+            <span></span>
             <div class="earth">
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/1024px-The_Earth_seen_from_Apollo_17.jpg" alt="Earth" />
             </div>
-            <h2 class="title">Discover new sounds from around the world</h2>
-            <p class="subtitle">Listen to music from different cultures and traditions</p>
-            <button class="cta" onclick={()=>handleClick}>Current Location</button>
+            <h2 class="title">Discover music events from around the world</h2>
         </div>
     </div>
 
@@ -71,6 +81,7 @@
     }
 
     .hero {
+        
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -82,6 +93,7 @@
         width: 300px;
         height: 300px;
         margin-bottom: 3rem;
+        margin-top: 20px;
         animation: spin 10s linear infinite;
     }
 
@@ -100,12 +112,11 @@
             transform: rotate(360deg);
         }
     }
-
+    
     .title {
         font-size: 3rem;
         font-weight: bold;
         color: #1e90ff;
-        margin-bottom: 1rem;
     }
 
     .subtitle {
@@ -115,6 +126,7 @@
     }
 
     .cta {
+        
         font-size: 1.2rem;
         font-weight: bold;
         color: #fff;

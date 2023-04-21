@@ -12,7 +12,8 @@ const getEventsFromApi = async (location:string) =>{
     console.log(location)
     params.q = 'Music Events in '+location
     console.log(params)
-    const result = await getJson('google',params)
+    const result = await getJson('google_events',params)
+    console.log(result)
     return result 
 }
 export default getEventsFromApi
