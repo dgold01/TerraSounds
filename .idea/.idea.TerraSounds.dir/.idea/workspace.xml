@@ -2,15 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="116b776b-b54e-4650-a4c0-72305054afd6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/myapp/src/lib/CitySearch.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/ApiServices/eventsApiService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/ApiServices/usersApiService.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/EventWindow.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/LoginPage.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/SavedEvents.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/myapp/src/lib/SignUpPage.svelte" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/eventsController.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/usersController.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/databases/eventsDatabase.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/databases/usersDatabase.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/eventsModel.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/models/usersModels.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/lib/ApiService.ts" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/Homescreen.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Homescreen.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/NavBar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/NavBar.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controller.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/model.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/router.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/router.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,11 +40,16 @@
         <option value="map" />
         <option value="__layout.svelte" />
         <option value="ApiService" />
-        <option value="TypeScript File" />
         <option value="CSS File" />
         <option value="NavBar" />
         <option value="homescreen" />
         <option value="citySearchBox" />
+        <option value="SavedEvents" />
+        <option value="musicEventWindow" />
+        <option value="eventWindow" />
+        <option value="LoginPage" />
+        <option value="SignUpPage" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -70,6 +90,12 @@
       <updated>1681823267706</updated>
       <workItem from="1681823273384" duration="77421000" />
       <workItem from="1682073794814" duration="7861000" />
+      <workItem from="1682082738213" duration="4947000" />
+      <workItem from="1682087727389" duration="9674000" />
+      <workItem from="1682147573220" duration="16196000" />
+      <workItem from="1682167679591" duration="15603000" />
+      <workItem from="1682189127860" duration="1042000" />
+      <workItem from="1682194733487" duration="23799000" />
     </task>
     <servers />
   </component>
@@ -78,13 +104,9 @@
     <option name="exactExcludedFiles">
       <list>
         <option value="$PROJECT_DIR$/server/index.js" />
-        <option value="$PROJECT_DIR$/server/controller.js" />
         <option value="$PROJECT_DIR$/server/router.js" />
-        <option value="$PROJECT_DIR$/server/model.js" />
         <option value="$PROJECT_DIR$/server/router.js.map" />
-        <option value="$PROJECT_DIR$/server/controller.js.map" />
         <option value="$PROJECT_DIR$/server/index.js.map" />
-        <option value="$PROJECT_DIR$/server/model.js.map" />
         <option value="$PROJECT_DIR$/myapp/src/main.js" />
       </list>
     </option>

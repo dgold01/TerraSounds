@@ -1,21 +1,43 @@
     
     <script lang="ts">
-        import {onMount} from "svelte";
         import CitySearch from "./CitySearch.svelte";
+        import SavedEvents from "./SavedEvents.svelte";
+        import LoginPage from "./LoginPage.svelte";
+        import SignUpPage from "$lib/SignUpPage.svelte";
+        import {getUsers} from "./ApiServices/usersApiService";
+        let showSavedEvents
+        let showLoginPage
+        let showSignUpPage
+        let signedIn
+        let userId
         export let handleClick
         export let handleSearch
         export let showSearch
         export let handleSearchClick
+        
+        
     </script>
     <div class="container">
         <div class="header">
             <h1 class="logo">TerraSounds</h1>
             <div class="nav">
-                <a href="#" class="active">Home</a>
-                <a href="#">Explore</a>
-                <a href="#">Favorites</a>
+                {#if signedIn}
+                    <a on:click ={()=>{showSavedEvents=true}} href="#">Saved Events</a>
+                    <a on:click ={()=>{showSavedEvents=true}} href="#">Profile</a>
+                    {:else}
+                    <a on:click ={()=> {showLoginPage= true}} href="#">Login</a>
+                    <a on:click ={()=> {showSignUpPage = true}}  href="#">Sign up</a>
+                    {/if}
             </div>
         </div>
+        {#if showSavedEvents}
+            <SavedEvents></SavedEvents>
+        {:else if showLoginPage}
+            <LoginPage ></LoginPage>
+        {:else if showSignUpPage}
+           <SignUpPage  ></SignUpPage>
+        {:else}
+       
         <div class="hero">
             <span>
             <button id ='current' class="cta" on:click={()=>handleClick}>Current Location</button>
@@ -30,6 +52,8 @@
             </div>
             <h2 class="title">Discover music events from around the world</h2>
         </div>
+        
+        {/if}
     </div>
 
 
@@ -45,7 +69,7 @@
 
     .header {
         display: flex;
-        justify-content: space-between;
+        justify-content: space-around;
         align-items: center;
         width: 100%;
         padding: 1rem;
@@ -114,6 +138,7 @@
     }
     
     .title {
+        
         font-size: 3rem;
         font-weight: bold;
         color: #1e90ff;
