@@ -4,26 +4,28 @@
     import {onMount} from "svelte";
     import {getUsers} from "../lib/ApiServices/usersApiService";
     import {setContext} from 'svelte'
-    let city = ''
     let showMap = false;
     let showSearch = false;
     let isLocal = true;
-    let signedIn;
     let userId
-    
-    
-    
+    let showLoginPage
+    let showSignUpPage
+
+    import {cityStore, signedInStore} from "../stores/stores";
+  
     async function handleSignIn(email) {
+        
         let users = []
         users = await getUsers()
         users.forEach((user)=>{
             if (user.email === email) userId = user._id
         })
-        console.log(userId)
-        signedIn = true
+        $signedInStore = true
+        showLoginPage = false;
+        showSignUpPage = false;
     }
     
-    setContext('signedIn',signedIn)
+    
     setContext('handleSignIn',handleSignIn)
     // function handleSignIn(){
     //     // showLoginPage = false;
@@ -38,11 +40,10 @@
         console.log('test')
     }
     function handleSearchClick(input){
-        city = input
-        isLocal = false
+        isLocal = false;
+        cityStore.set(input)
         showMap = true
-        console.log(city)
-        $: console.log(city)
+        console.log($cityStore)
     }
     
     onMount(() => {
@@ -51,9 +52,9 @@
     });
 </script>
 {#if showMap}
-   <Map handleSearchClick = {handleSearchClick} chosenCity = {city}  isLocal = {isLocal}></Map>
+   <Map handleSearchClick = {handleSearchClick}   isLocal = {isLocal}></Map>
 {:else}
-    <Homescreen handleSearchClick = {handleSearchClick}   showSearch ={showSearch} handleClick = {handleClick}></Homescreen>
+    <Homescreen showLoginPage= {showLoginPage} showSignUpPage={showSignUpPage} handleSearchClick = {handleSearchClick}   showSearch ={showSearch} handleClick = {handleClick}></Homescreen>
 {/if}
 
 <!--<Map></Map>-->

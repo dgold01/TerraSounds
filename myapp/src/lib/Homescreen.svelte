@@ -4,16 +4,15 @@
         import SavedEvents from "./SavedEvents.svelte";
         import LoginPage from "./LoginPage.svelte";
         import SignUpPage from "$lib/SignUpPage.svelte";
-        import {getUsers} from "./ApiServices/usersApiService";
-        let showSavedEvents
-        let showLoginPage
-        let showSignUpPage
-        let signedIn
-        let userId
+        import {signedInStore} from "../stores/stores";
         export let handleClick
         export let handleSearch
         export let showSearch
         export let handleSearchClick
+        export let showLoginPage
+        export let showSignUpPage
+        let showSavedEvents
+        
         
         
     </script>
@@ -21,7 +20,7 @@
         <div class="header">
             <h1 class="logo">TerraSounds</h1>
             <div class="nav">
-                {#if signedIn}
+                {#if $signedInStore}
                     <a on:click ={()=>{showSavedEvents=true}} href="#">Saved Events</a>
                     <a on:click ={()=>{showSavedEvents=true}} href="#">Profile</a>
                     {:else}

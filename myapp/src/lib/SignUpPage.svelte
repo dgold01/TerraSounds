@@ -5,9 +5,9 @@
   let password = '';
   let confirmPassword = '';
   import {getContext} from "svelte";
-
-  const {handleSignIn} = getContext('handleSignIn')
-  
+    
+  const handleSignIn = getContext('handleSignIn')
+  console.log(handleSignIn)
   
 </script>
 

@@ -1,11 +1,10 @@
 <!-- Map.svelte -->
 <script lang="ts">
-    import {afterUpdate, onMount} from 'svelte';
+    import {onMount} from 'svelte';
     import {getEvents} from "./ApiServices/eventsApiService";
-    import { writable } from 'svelte/store';
     import NavBar from "./NavBar.svelte";
     import EventWindow from "./EventWindow.svelte";
-    let noRender = false;
+    import {cityStore} from "../stores/stores";
     let map;
     let pos;
     let showEvent;
@@ -14,23 +13,17 @@
     let currentEvent
     let events = []
     let isLoading = true;
+    let lastCallToGoogleTimestamp = undefined;
+    
     export let isLocal
     export let handleSearchClick
-    export let chosenCity
-    const cityStore = writable(chosenCity)
-    let unsubscribe;
-    afterUpdate(() => {
-            unsubscribe = cityStore.subscribe(() => { //this allows the createEvents() function to re-run when the a new chosenCity input.
-            if(!noRender)  {
-                createEvents();
-            }
-        });
-    });
+    
     function handleClickX(){
         showEvent = false;
-        noRender = true;
+        // noRender = true;
     }
     async function initMap() {                           //takes time to create the map, so this is carried out as a callback functiion, called in the onMount of this component.
+        console.log("initMap called")
         map = new google.maps.Map(container, {
             zoom: 12,
             center: {lat: -34.397, lng: 150.644},
@@ -50,46 +43,69 @@
         script.async = true;
         window.initMap = initMap;
         document.head.appendChild(script);
+        const unsubsribed = cityStore.subscribe(() => {
+            if (window.google) {
+                isLocal = false
+                console.log($cityStore)
+                //await new Promise(res => setTimeout(res, 1000))
+                createEvents()
+            }
+        })
+       return unsubsribed
     });
     const processEvents = async (events) => {
-        const geocoder =new google.maps.Geocoder();
+        console.log('processEvents called')
+        
+        const geocoder = new google.maps.Geocoder();
         for (let event of events) {
-            const address = (event.address).toString()
-            await geocoder.geocode({'address': address},
-                function (results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-                        let shape = {
-                            coords: [25, 25, 25],
-                            type: 'circle'
-                        };
-                        const marker = new google.maps.Marker({
-                            position: results[0].geometry.location,
-                            map: map,
-                            icon: {
-                                url:event.image,
-                                scaledSize: new google.maps.Size(30, 30)
-                            },
-                            shape: shape
-                        });
-                    
-                        marker.addListener('click', () => {
-                            showEvent = true;
-                            currentEvent= event
-                        });
-                      
-                        // document.addEventListener('click',(e)=>{
-                        //    
-                        //     const eventWindow = document.getElementById('eventWindow');
-                        //     if(!eventWindow.contains(e.target as Node)) showEvent = false;
-                        // })
+            try {
+                console.log("request event: " + event.title)
+                const address = (event.address).toString()
+                await geocoder.geocode({'address': address},
+                    function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            let shape = {
+                                coords: [25, 25, 25],
+                                type: 'circle'
+                            };
+                            const marker = new google.maps.Marker({
+                                position: results[0].geometry.location,
+                                map: map,
+                                icon: {
+                                    url: event.image,
+                                    scaledSize: new google.maps.Size(30, 30)
+                                },
+                                shape: shape
+                            });
+                            marker.addListener('click', () => {
+                                showEvent = true;
+                                currentEvent = event
+                            });
+                            // document.addEventListener('click',(e)=>{
+                            //    
+                            //     const eventWindow = document.getElementById('eventWindow');
+                            //     if(!eventWindow.contains(e.target as Node)) showEvent = false;
+                            // })
+                        }
                     }
-                })
+                )
+                await new Promise(res => setTimeout(res,80))
+            } catch(e) {
+                console.log(e)
+            }
         }
     }
+    
     const createEvents = async () => {
-        await processEvents(events)
+        // await processEvents(events)
+        console.log("createEvents called")
+        console.log(isLocal)
+
+        await new Promise(res => setTimeout(res, (lastCallToGoogleTimestamp + 10000) - Date.now()));
+        console.log("finished waiting")
+        
         if(isLocal) {
-            const geocoder =new google.maps.Geocoder();// this looks to see if current location was chosen, and creates markers around this location. 
+            const geocoder = new google.maps.Geocoder();// this looks to see if current location was chosen, and creates markers around this location. 
             await geocoder.geocode({location: pos}, async (results, status) => {
                 if (status === 'OK') {
                     const addressComponents = results[0].address_components;
@@ -98,7 +114,7 @@
                         if (types.includes("locality") || types.includes("administrative_area_level_2")) {
                             city = addressComponents[i].long_name;
                             events = await getEvents(city)
-                            console.log(events.length)
+                            // console.log(events.length)
                             await processEvents(events) // waits for the markers to be created
                             isLoading = false;
                             break;
@@ -109,9 +125,11 @@
         }
         else {
             const geocoder =new google.maps.Geocoder();
-            events = await getEvents(chosenCity)
+            events = await getEvents($cityStore)
+            console.log(events)
             await processEvents(events)
-            await geocoder.geocode({address: chosenCity}, (results, status) => {
+            console.log($cityStore)
+            await geocoder.geocode({address: $cityStore}, (results, status) => {
                 if (status === 'OK') {
                     // Set the center of the map to the latitude and longitude coordinates of the first result
                     const location = results[0].geometry.location;
@@ -122,6 +140,8 @@
             });
             isLoading = false;
         }
+
+        lastCallToGoogleTimestamp = Date.now();
     }
     async function getLocation(): Promise<{ lat: number, lng: number }> {
         try {

@@ -5,10 +5,7 @@
     let eventId
     import {saveEvent,getSavedEvents,deleteEvent} from "./ApiServices/eventsApiService";
     import {onMount} from "svelte";
-    import {getContext} from "svelte";
-
-    const signedIn = getContext('signedIn')
-    
+    import {signedInStore} from "../stores/stores";
     onMount( async () => {
         const events = await getSavedEvents()
         console.log(events)
@@ -52,7 +49,7 @@
             </div>
             <span></span>
             <div class="popup-buttons">
-                {#if signedIn}
+                {#if $signedInStore}
                     {#if !isEventSaved}
                         <button on:click = {()=>{saveEvent(event);isEventSaved=true;updateEventId()}} class="popup-save">Save event</button>
                     {:else}
