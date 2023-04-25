@@ -1,10 +1,11 @@
 <!-- Map.svelte -->
 <script lang="ts">
-    import {onMount} from 'svelte';
+    import {onMount, setContext} from 'svelte';
     import {getEvents} from "./ApiServices/eventsApiService";
     import NavBar from "./NavBar.svelte";
     import EventWindow from "./EventWindow.svelte";
     import {cityStore} from "../stores/stores";
+    import {isLightStore} from "../stores/stores";
     let map;
     let pos;
     let showEvent;
@@ -14,36 +15,47 @@
     let events = []
     let isLoading = true;
     let lastCallToGoogleTimestamp = undefined;
-    
     export let isLocal
-    export let handleSearchClick
+   
+    
+   
     
     function handleClickX(){
         showEvent = false;
-        // noRender = true;
     }
     async function initMap() {                           //takes time to create the map, so this is carried out as a callback functiion, called in the onMount of this component.
-        console.log("initMap called")
+        const mapStyles = $isLightStore  ? customSyleLight : customStyleDark;
         map = new google.maps.Map(container, {
             zoom: 12,
             center: {lat: -34.397, lng: 150.644},
             disableDefaultUI: true,
-            styles: customStyle
+            styles: mapStyles
         });
         if (isLocal) {
             pos = await getLocation()
             map.setCenter(pos);
+            const marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                icon: {
+                    url: '../../src/avatas/avata.png' ,
+                    scaledSize: new google.maps.Size(50, 30),
+                    anchor: new google.maps.Point(15, 15),
+                },
+            });
+            
         }
         await createEvents()
     }
     onMount(async () => {
+        console.log($isLightStore)
         const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
         const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=geometry&callback=initMap`;
         script.async = true;
         window.initMap = initMap;
         document.head.appendChild(script);
-        const unsubsribed = cityStore.subscribe(() => {
+        const unsubsribedCity = cityStore.subscribe(() => {
             if (window.google) {
                 isLocal = false
                 console.log($cityStore)
@@ -51,18 +63,26 @@
                 createEvents()
             }
         })
-       return unsubsribed
+        const unsubsribedIsLight = isLightStore.subscribe(() => {
+            console.log($isLightStore)
+           initMap()
+        })
+        return [unsubsribedCity, unsubsribedIsLight];
+        
     });
     const processEvents = async (events) => {
         console.log('processEvents called')
-        
+        function calculateCircleRadius(zoom) {
+            const radiusFactor = 1500000;
+            return radiusFactor / Math.pow(2, zoom);
+        }
         const geocoder = new google.maps.Geocoder();
         for (let event of events) {
             try {
                 console.log("request event: " + event.title)
                 const address = (event.address).toString()
                 await geocoder.geocode({'address': address},
-                    function (results, status) {
+                    async function (results, status) {
                         if (status === google.maps.GeocoderStatus.OK) {
                             let shape = {
                                 coords: [25, 25, 25],
@@ -72,20 +92,75 @@
                                 position: results[0].geometry.location,
                                 map: map,
                                 icon: {
-                                    url: event.image,
-                                    scaledSize: new google.maps.Size(30, 30)
+                                    url:'',
+                                    anchor: new google.maps.Point(25, 25),
                                 },
                                 shape: shape
                             });
-                            marker.addListener('click', () => {
-                                showEvent = true;
-                                currentEvent = event
+                            const color = $isLightStore ? 'dark':'white'
+                            const url = event.image ? event.image : event.thumbnail
+                            const iconImg = url;
+                           
+                            const clippedIconImg = new Image();
+                            clippedIconImg.crossOrigin = 'anonymous';
+                            clippedIconImg.src = iconImg;
+                            await clippedIconImg.decode(); // wait for the image to load
+
+                            const canvas = document.createElement("canvas");
+                            canvas.width = 100;
+                            canvas.height = 100;
+                            const ctx = canvas.getContext("2d");
+                            ctx.beginPath();
+                            ctx.arc(50, 50, 25, 0, 2 * Math.PI);
+                            ctx.clip();
+                            ctx.imageSmoothingQuality ='high'
+                            ctx.drawImage(clippedIconImg, 0, 0,100, 100);
+                            ctx.beginPath();
+                            ctx.arc(50, 50, 54, 0, 2 * Math.PI);
+                            ctx.strokeStyle = color;
+                            ctx.lineWidth = 65;
+                            ctx.stroke();
+                            const clippedIconUrl = canvas.toDataURL();
+                            marker.setIcon({
+                                url: clippedIconUrl,
+                                scaledSize: new google.maps.Size(100, 100),
+                                anchor: new google.maps.Point(50, 50),
                             });
-                            // document.addEventListener('click',(e)=>{
-                            //    
-                            //     const eventWindow = document.getElementById('eventWindow');
-                            //     if(!eventWindow.contains(e.target as Node)) showEvent = false;
-                            // })
+                            
+                            const circleInvisible = new google.maps.Circle({
+                                map: map,
+                                center: marker.getPosition(),
+                                radius: calculateCircleRadius(map.getZoom()),
+                                clickable: true,
+                                strokeWeight: 0,
+                                fillOpacity: 0,
+                            });
+                            
+                            let markerImageSize = new google.maps.Size(200, 200);
+                            let markerImageAnchor = new google.maps.Point(100,100);
+                            google.maps.event.addListener(circleInvisible, 'mouseover', function () {
+                                marker.setIcon({
+                                    url: clippedIconUrl,
+                                    scaledSize: markerImageSize,
+                                    anchor: markerImageAnchor
+                                });
+                                marker.setZIndex(google.maps.Marker.MAX_ZINDEX + 1);
+                                marker.setAnimation(google.maps.Animation.BOUNCE);
+                                circleInvisible.setRadius(calculateCircleRadius(map.getZoom()) * 3)
+                            });
+                            google.maps.event.addListener(circleInvisible, 'mouseout', function () {
+                                marker.setIcon({
+                                    url:clippedIconUrl,
+                                    scaledSize: new google.maps.Size(100, 100),
+                                    anchor: new google.maps.Point(50,50)
+                                });
+                                marker.setAnimation(null);
+                                circleInvisible.setRadius(calculateCircleRadius(map.getZoom()))
+                            });
+                            google.maps.event.addListener(circleInvisible, 'click', function () {
+                                showEvent = true;
+                                currentEvent = event;
+                            });
                         }
                     }
                 )
@@ -94,13 +169,13 @@
                 console.log(e)
             }
         }
+        isLoading = false;
     }
-    
     const createEvents = async () => {
         // await processEvents(events)
         console.log("createEvents called")
         console.log(isLocal)
-
+        isLoading = true
         await new Promise(res => setTimeout(res, (lastCallToGoogleTimestamp + 10000) - Date.now()));
         console.log("finished waiting")
         
@@ -140,7 +215,6 @@
             });
             isLoading = false;
         }
-
         lastCallToGoogleTimestamp = Date.now();
     }
     async function getLocation(): Promise<{ lat: number, lng: number }> {
@@ -162,12 +236,246 @@
             throw error;
         }
     }
-    const customStyle = [
+    const customSyleLight = [  {    featureType: "poi",    elementType: "labels",    stylers: [{ visibility: "off" }]},
+        {
+            featureType: "poi.park",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }]
+        }, {
+            featureType: "administrative.locality",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }]
+        },{
+            featureType: "transit",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        },{
+            featureType: "road",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        },{
+            featureType: "administrative",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        },{
+            featureType: "water",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+        },{
+            featureType: "landscape",
+            elementType: "all",
+            stylers: [{ color: "#f2f2f2" }]
+        },{
+            featureType: "road",
+            elementType: "geometry",
+            stylers: [{ color: "#ffffff" }]
+        },{
+            featureType: "poi",
+            elementType: "geometry",
+            stylers: [{ color: "#ffffff" }]
+        },{
+            featureType: "road",
+            elementType: "labels.icon",
+            stylers: [{ visibility: "off" }]
+        },{
+            featureType: "road.local",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#666666" }]
+        },    {        "featureType": "all",        "elementType": "all",        "stylers": [            {                "saturation": -100            },            {                "lightness": 75            },            {                "gamma": 0.5            }        ]
+        },
+            {
+                "featureType": "all",
+                "elementType": "labels.text.fill",
+                "stylers": [
+                    {
+                        "color": "#444444"
+                    }
+                ]
+            },
+            {
+                "featureType": "all",
+                "elementType": "labels.text.stroke",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    },
+                    {
+                        "lightness": 16
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "administrative",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "color": "#555555"
+                    },
+                    {
+                        "lightness": 14
+                    },
+                    {
+                        "weight": 1.4
+                    }
+                ]
+            },
+            {
+                "featureType": "landscape",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#f7f7f7"
+                    }
+                ]
+            },
+            {
+                "featureType": "poi",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "#eeeeee"
+                    },
+                    {
+                        "lightness": 5
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "grey"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.highway",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "color": "#dddddd"
+                    },
+                    {
+                        "lightness": 25
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "geometry.fill",
+                "stylers": [
+                    {
+                        "color": "#ffffff"
+                    }
+                ]
+            },
+            {
+                "featureType": "road.arterial",
+                "elementType": "geometry.stroke",
+                "stylers": [
+                    {
+                        "color": "#dddddd"
+                    },
+                    {
+                        "lightness": 16
+                    }
+                ]
+            },
+            {
+                "featureType": "road.local",
+                "elementType": "geometry",
+                "stylers": [
+                    {
+                        "color": "lightgrey"
+                    }
+                ]
+            },
+            {
+                "featureType": "transit",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#888888"
+                    }
+                ]
+            },
+            {
+                "featureType": "water",
+                "elementType": "all",
+                "stylers": [
+                    {
+                        "color": "#c7eced"
+                    }
+                ]
+            }
+        ];
 
+
+
+
+    const customStyleDark =  [  {    featureType: "poi",    elementType: "labels",    stylers: [{ visibility: "off" }]},
+        {
+            featureType: "poi.park",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }]
+        }, {
+            featureType: "administrative.locality",
+            elementType: "labels",
+            stylers: [{ visibility: "on" }]
+        },{
+        featureType: "transit",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+    },{
+        featureType: "road",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+    },{
+        featureType: "administrative",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+    },{
+        featureType: "water",
+            elementType: "labels",
+            stylers: [{ visibility: "off" }]
+    },{
+        featureType: "landscape",
+            elementType: "all",
+            stylers: [{ color: "#f2f2f2" }]
+    },{
+        featureType: "road",
+            elementType: "geometry",
+            stylers: [{ color: "#ffffff" }]
+    },{
+        featureType: "poi",
+            elementType: "geometry",
+            stylers: [{ color: "#ffffff" }]
+    },{
+        featureType: "road",
+            elementType: "labels.icon",
+            stylers: [{ visibility: "off" }]
+    },{
+        featureType: "road.local",
+            elementType: "labels.text.fill",
+            stylers: [{ color: "#666666" }]
+    },
+        
         {
             "featureType": "all",
             "elementType": "all",
-            "stylers": [
+            "stylers":
+                
+                [
                 {
                     "saturation": -100
                 },
@@ -314,14 +622,14 @@
     ];
 </script>
 <style>
+   
     .full-screen {
         width: 100vw;
         height: 100vh;
-    }
-    .customMarker {
-        border-radius: 50%;
+        margin-left: -8px;
     }
     .loading {
+        margin-bottom: -30px;
         position: absolute;
         top: 0;
         left: 0;
@@ -351,8 +659,9 @@
     {#if isLoading}
         <h1>Retrieving your events!</h1>
     {/if}
+    
 </div>
-<NavBar handleSearchClick={handleSearchClick}></NavBar>
+<NavBar  ></NavBar>
 <div id = "map" bind:this={container} class="full-screen"></div>
 {#if showEvent}
     <EventWindow  handleXclick ={handleClickX} id = 'eventWindow' event = {currentEvent} ></EventWindow>

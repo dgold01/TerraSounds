@@ -53,6 +53,9 @@ export async function deleteEvent(req?:Request,res?:Response) : Promise<void> {
         const _id=  req.params._id
         console.log(_id)
         await deleteEventFromModel(_id)}
+        if(res) {
+            res.status(201)
+            res.json({message:'deleted'})}
 
     } catch (e) {
         console.log('e', e);

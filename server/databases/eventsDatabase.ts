@@ -1,7 +1,8 @@
 import mongoose, { Schema, model, connect } from 'mongoose';
 export interface Event {
     title: string;
-    location: string;
+    address: string;
+    venue: string;
     date: string;
     link: string;
     image: string;
@@ -13,6 +14,6 @@ async function main() {
     console.log('connected')
 }
 main().catch(err => console.log(err));
-const schema = new Schema<Event>({title:String, location:String,date:String,link:String,image:String,userId:mongoose.Types.ObjectId})
+const schema = new Schema<Event>({title:String, venue:String,address:String, date:String,link:String,image:String,userId:mongoose.Types.ObjectId})
 const db = model<Event>('MusicEvents',schema)
 export default db

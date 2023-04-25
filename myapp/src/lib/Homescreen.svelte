@@ -1,19 +1,15 @@
     
     <script lang="ts">
         import CitySearch from "./CitySearch.svelte";
-        import SavedEvents from "./SavedEvents.svelte";
-        import LoginPage from "./LoginPage.svelte";
-        import SignUpPage from "$lib/SignUpPage.svelte";
         import {signedInStore} from "../stores/stores";
-        export let handleClick
-        export let handleSearch
         export let showSearch
-        export let handleSearchClick
-        export let showLoginPage
-        export let showSignUpPage
-        let showSavedEvents
-        
-        
+        import {getContext} from "svelte";
+        const chooseCityHandleClick = getContext('chooseCityHandleClick')
+        const currentLocationHandleClick = getContext('currentLocationHandleClick')
+        const showSignUp = getContext('showSignUp')
+        const showSignIn = getContext('showSignIn')
+        const showSavedEvents = getContext('showSavedEvents')
+        const showProfile = getContext('showProfile')
         
     </script>
     <div class="container">
@@ -21,28 +17,21 @@
             <h1 class="logo">TerraSounds</h1>
             <div class="nav">
                 {#if $signedInStore}
-                    <a on:click ={()=>{showSavedEvents=true}} href="#">Saved Events</a>
-                    <a on:click ={()=>{showSavedEvents=true}} href="#">Profile</a>
+                    <a on:click ={showSavedEvents} href="#">Saved Events</a>
+                    <a on:click ={showProfile} href="#">Profile</a>
                     {:else}
-                    <a on:click ={()=> {showLoginPage= true}} href="#">Login</a>
-                    <a on:click ={()=> {showSignUpPage = true}}  href="#">Sign up</a>
+                    <a on:click ={showSignIn} href="#">Login</a>
+                    <a on:click ={showSignUp}  href="#">Sign up</a>
                     {/if}
             </div>
         </div>
-        {#if showSavedEvents}
-            <SavedEvents></SavedEvents>
-        {:else if showLoginPage}
-            <LoginPage ></LoginPage>
-        {:else if showSignUpPage}
-           <SignUpPage  ></SignUpPage>
-        {:else}
-       
+        
         <div class="hero">
             <span>
-            <button id ='current' class="cta" on:click={()=>handleClick}>Current Location</button>
-            <button id ='choose' class="cta" on:click= {()=>handleSearch} >Choose Location</button>
+            <button id ='current' class="cta" on:click={currentLocationHandleClick} >Current Location</button>
+            <button id ='choose' class="cta" on:click={chooseCityHandleClick} >Choose Location</button>
             {#if showSearch}
-            <CitySearch handleSearchClick = {handleSearchClick} class = ''></CitySearch>
+            <CitySearch></CitySearch>
             {/if}
             </span>
             <span></span>
@@ -51,18 +40,20 @@
             </div>
             <h2 class="title">Discover music events from around the world</h2>
         </div>
-        
-        {/if}
     </div>
 
 
 <style>
     .container {
+        margin-top :-8px;
+        margin-left: -8px;
+        margin-bottom:-80px;
+        width: 100vw;
+        height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 100vh;
         background-color: #ff69b4;
     }
 
@@ -75,9 +66,10 @@
     }
 
     .logo {
+        
         font-size: 2rem;
         font-weight: bold;
-        color: #1e90ff;
+        color: darkblue;
     }
 
     .nav {
@@ -87,7 +79,7 @@
     }
 
     .nav a {
-        color: #1e90ff;
+        color: darkblue;
         font-size: 1.2rem;
         text-decoration: none;
         opacity: 0.7;
@@ -140,14 +132,10 @@
         
         font-size: 3rem;
         font-weight: bold;
-        color: #1e90ff;
+        color: darkblue;
     }
 
-    .subtitle {
-        font-size: 1.5rem;
-        color: #1e90ff;
-        margin-bottom: 2rem;
-    }
+  
 
     .cta {
         

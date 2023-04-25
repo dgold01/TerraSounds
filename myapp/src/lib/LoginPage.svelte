@@ -1,37 +1,39 @@
+<script>
+    import {getContext} from "svelte";
+    let email = "";
+    let password = "";
 
+    const handleSignIn = getContext('handleSignIn')
+    const showSignUp = getContext('showSignUp')
+    
+</script>
     <div class="container">
-        <form on:submit|preventDefault={handleLogin}>
+        <form on:submit|preventDefault>
             <h2>Login</h2>
             <div class="form-control">
-                <label for="username">Username:</label>
-                <input type="text" id="username" bind:value={username} required />
+                <label for="email">email:</label>
+                <input type="text" id="email" bind:value={email} required />
             </div>
             <div class="form-control">
                 <label for="password">Password:</label>
                 <input type="password" id="password" bind:value={password} required />
             </div>
-            <button type="submit">Login</button>
+            <button on:click ={handleSignIn(email)} type="submit">Login</button>
+            <button on:click={showSignUp}  class ='sign' type="submit">Don't have an account? Sign up here</button>
         </form>
     </div>
-
-
-<script>
-  let username = "";
-  let password = "";
-
-  function handleLogin() {
-    // handle login logic here
-  }
-</script>
-
 <style>
     /* container styles */
+    .sign{
+        font-size: 15px;
+    }
     .container {
+        margin :-8px;
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
-        background-color: #1c1e26;
+        background-color: #ff69b4;
         color: white;
     }
 
@@ -88,7 +90,6 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
-
     button:hover {
         background-color: #0096c7;
     }

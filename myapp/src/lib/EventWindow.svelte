@@ -4,8 +4,10 @@
     let isEventSaved = false;
     let eventId
     import {saveEvent,getSavedEvents,deleteEvent} from "./ApiServices/eventsApiService";
-    import {onMount} from "svelte";
+    import {getContext, onMount} from "svelte";
     import {signedInStore} from "../stores/stores";
+    const showSignIn = getContext('showSignIn')
+    
     onMount( async () => {
         const events = await getSavedEvents()
         console.log(events)
@@ -39,7 +41,7 @@
                 <div class = 'desc'>
                     <h2> {event.description}</h2>
                 </div>
-                <img src="{event.image}">
+                <img src="{event.image ? event.image:event.thumbnail}">
                     
             </div>
             <div class="popup-details">
@@ -57,8 +59,8 @@
                     {/if}
                 <button class="popup-share">Share event</button>
                 {:else}
-                    <button on:click = {()=>{}} class="popup-save">Sign in to save</button>
-                    <button on:click = {()=>{}} class="popup-save">Sign in to share</button>
+                    <button on:click = {showSignIn} class="popup-save">Sign in to save</button>
+                    <button on:click = {showSignIn} class="popup-save">Sign in to share</button>
                     {/if}
             </div>
         </div>
@@ -66,9 +68,16 @@
 </div>
 
 <style>
+    
+    
+    
+    .popup-buttons{
+        
+        display: flex;
+    }
     .popup-buttons button {
         padding: 20px 100px;
-        
+        margin-left: 10px;
         border: none;
         border-radius: 5px;
         background-color: #4CAF50;
