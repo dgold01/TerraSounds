@@ -13,9 +13,14 @@
 </script>
 
 <nav class="navbar">
+    <div class="hamburger-icon">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     <div class="navbar-expand">
         <div class="switch">
-        <Switch bind:value={$isLightStore} label="Choose a theme" design="multi" options={[true, false]} fontSize={12}/>
+        <Switch bind:value={$isLightStore} label="Choose a theme" design="multi" options={['light', 'dark']} fontSize={12}/>
         </div>
         <div class ='searchContainer'>
             <h1>Selected a different city</h1>
@@ -23,6 +28,7 @@
         </div>
         <button id ='current' class="cta" on:click={currentLocationHandleClick}>Get events for current location</button>
         {#if $signedInStore}
+            
         <button on:click={showProfile} >Profile</button>
         <button on:click={showSavedEvents}>Saved events</button>
         {:else}
@@ -34,6 +40,28 @@
 </nav>
 <!-- Your CSS styling for the navbar -->
 <style>
+    .searchContainer{
+       margin-bottom: 10px;
+        
+    }
+
+    .hamburger-icon {
+        position: relative;
+        left:650px;
+        top:-25px;
+        transform: translate(100%, 100%)
+    }
+    .hamburger-icon span {
+        
+        display: block;
+        width: 20px;
+        height: 2px;
+        margin: 4px 0;
+        background-color: #fff;
+    }
+
+    
+  
     .switch {
         margin-right: 250px;
         position: relative;
@@ -57,17 +85,10 @@
         display: flex;
         justify-content: center;
         padding: 0.5rem;
-        height: 10px;
+        height: 20px;
         position: relative;
     }
-    .navbar-button{
-        align-self: center;
-        background: none;
-        border: none;
-        cursor: pointer;
-        height: 30px;
-        width: 30px;
-    }
+ 
     .navbar:hover {
         opacity: 1;
         height: 100px;
@@ -75,21 +96,7 @@
     }
  
  
-
-    .navbar-button-icon {
-        background-color: #fff;
-       
-        width: 100%;
-    }
-
-    .navbar-button-icon::before {
-        top: -8px;
-    }
-
-    .navbar-button-icon::after {
-        top: 8px;
-    }
-
+    
     .navbar-expand {
         
         display: flex;
@@ -103,12 +110,7 @@
         /*transition: height 0.3s ease-in-out;*/
     }
 
-    .citySearch {
-        display: flex;
-        flex-direction: row;
-        
-        visibility: hidden;
-    }
+   
 
     .navbar:hover .navbar-expand {
         height: 100px;
@@ -118,7 +120,7 @@
         visibility: visible;
     }
     button{
-        padding: 0.5rem 2rem;
+        
         border-radius: 5px;
         border: none;
         outline: none;
@@ -127,7 +129,7 @@
         color: white;
         cursor: pointer;
         transition: all 0.3s ease;
-        margin: 100px;
+        margin :60px;
     }
     button:hover{
         transform: translateY(5px);

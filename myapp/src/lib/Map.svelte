@@ -6,6 +6,7 @@
     import EventWindow from "./EventWindow.svelte";
     import {cityStore} from "../stores/stores";
     import {isLightStore} from "../stores/stores";
+    let isLight = false;
     let map;
     let pos;
     let showEvent;
@@ -24,7 +25,7 @@
         showEvent = false;
     }
     async function initMap() {                           //takes time to create the map, so this is carried out as a callback functiion, called in the onMount of this component.
-        const mapStyles = $isLightStore  ? customSyleLight : customStyleDark;
+        const mapStyles = isLight  ? customSyleLight : customStyleDark;
         map = new google.maps.Map(container, {
             zoom: 12,
             center: {lat: -34.397, lng: 150.644},
@@ -64,7 +65,7 @@
             }
         })
         const unsubsribedIsLight = isLightStore.subscribe(() => {
-            console.log($isLightStore)
+            if($isLightStore === 'light') isLight = true 
            initMap()
         })
         return [unsubsribedCity, unsubsribedIsLight];
@@ -97,7 +98,7 @@
                                 },
                                 shape: shape
                             });
-                            const color = $isLightStore ? 'dark':'white'
+                            const color = isLight ? 'dark':'white'
                             const url = event.image ? event.image : event.thumbnail
                             const iconImg = url;
                            

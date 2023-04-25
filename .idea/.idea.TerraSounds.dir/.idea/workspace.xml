@@ -2,24 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="116b776b-b54e-4650-a4c0-72305054afd6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/myapp/src/avatas/avata.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/lib/Profile.svelte" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/myapp/src/lib/Switch.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TerraSounds.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/src/lib/ApiServices/eventsApiService.ts" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/ApiServices/eventsApiService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/src/lib/CitySearch.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/CitySearch.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/EventWindow.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/EventWindow.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/Homescreen.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Homescreen.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/src/lib/LoginPage.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/LoginPage.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Map.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/lib/NavBar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/NavBar.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/src/lib/SavedEvents.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/SavedEvents.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/src/lib/SignUpPage.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/SignUpPage.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/routes/+page.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/myapp/src/lib/Profile.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/lib/Profile.svelte" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/myapp/src/stores/stores.ts" beforeDir="false" afterPath="$PROJECT_DIR$/myapp/src/stores/stores.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/controllers/eventsController.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/eventsController.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/databases/eventsDatabase.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/databases/eventsDatabase.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/models/eventsModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/eventsModel.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +82,7 @@
       <workItem from="1682189127860" duration="1042000" />
       <workItem from="1682194733487" duration="96149000" />
       <workItem from="1682439063038" duration="163000" />
-      <workItem from="1682439243772" duration="6318000" />
+      <workItem from="1682439243772" duration="10851000" />
     </task>
     <servers />
   </component>

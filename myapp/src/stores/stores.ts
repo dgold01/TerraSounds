@@ -6,4 +6,4 @@ export const cityStore = writable('')
 
 export const eventsStore = writable([])
     
-export const isLightStore = writable(false)
+export const isLightStore = writable('dark')

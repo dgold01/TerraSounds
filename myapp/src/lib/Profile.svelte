@@ -22,8 +22,8 @@
     </div>
     <div class="info">
         <h2>John Doe</h2>
-        <p>Current Location:</p>
-        <p>Favorite Music Genres: Funk</p>
+        <p>Current Location:London</p>
+        <p>Favorite Music Genres: Funk, alternate rock, hip-hop/rap</p>
     </div>
  </div>   
 

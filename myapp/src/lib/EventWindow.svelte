@@ -45,8 +45,8 @@
                     
             </div>
             <div class="popup-details">
+                <p class="popup-venue">{event.venue.name}</p>
                 <p class="popup-date">{event.date.when}</p>
-                <p class="popup-location">{event.address}</p>
                 <a href="#" class="popup-link">{event.link}</a>
             </div>
             <span></span>
@@ -70,7 +70,9 @@
 <style>
     
     
-    
+    .popup-venue{
+        font-size: 30px;
+    }
     .popup-buttons{
         
         display: flex;
@@ -80,7 +82,7 @@
         margin-left: 10px;
         border: none;
         border-radius: 5px;
-        background-color: #4CAF50;
+        background-color: #ff69b4;
         color: white;
         font-size: 16px;
         cursor: pointer;
@@ -88,7 +90,7 @@
     }
 
     .popup-buttons button:hover {
-        background-color: #3e8e41;
+        background-color: magenta;
     }
     .popup {
         position: fixed;
@@ -101,7 +103,8 @@
         background-color: rgba(0, 0, 0, 0.4);
     }
     .desc{
-        color: cyan;
+        color: white;
+        font-family: Georgia,serif;
        text-align: left;
        padding-left: 20px;
         padding-right: 0;
@@ -176,23 +179,20 @@
     }
 
     .popup-details {
-        
+        font-family: Georgia,serif;
         flex-basis: 55%;
-        color: #ffffff;
+        color:white;
     }
 
-    .popup-date, .popup-location {
-        margin: 0;
-        font-size: 28px;
-        font-weight: bold;
-    }
 
     .popup-link {
         padding-bottom: 20px;
         display: block;
         margin-top: 20px;
-        font-size: 24px;
-        font-weight: bold;
+        margin-right:-270px;
+        margin-left: 10px;
+        font-size: 15px;
+        ;
         color: #ffffff;
         text-decoration: none;
         border-bottom: 2px solid #ffffff;

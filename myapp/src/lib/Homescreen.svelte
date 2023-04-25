@@ -66,13 +66,18 @@
     }
 
     .logo {
-        
+        position: absolute;
+        top:0;
+        left:10px;
         font-size: 2rem;
         font-weight: bold;
         color: darkblue;
     }
 
     .nav {
+        position: absolute;
+        top:10px;
+        right:10px;
         display: flex;
         justify-content: flex-end;
         gap: 1rem;
