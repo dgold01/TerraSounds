@@ -41,7 +41,7 @@
 <!-- Your CSS styling for the navbar -->
 <style>
     .searchContainer{
-       margin-bottom: 10px;
+      
         
     }
 
@@ -79,14 +79,14 @@
 
     
     .navbar {
-        margin: -8px;
+        z-index: 20;
         background-color: #ff69b4;
         color: #fff;
         display: flex;
         justify-content: center;
         padding: 0.5rem;
         height: 20px;
-        position: relative;
+        position: absolute;
     }
  
     .navbar:hover {
@@ -103,7 +103,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        left: 20px;
+        
         right: 0;
         height: 0;
         overflow: hidden;

@@ -1,11 +1,12 @@
 <!-- Map.svelte -->
 <script lang="ts">
-    import {onMount, setContext} from 'svelte';
+    import {onMount, afterUpdate} from 'svelte';
     import {getEvents} from "./ApiServices/eventsApiService";
     import NavBar from "./NavBar.svelte";
     import EventWindow from "./EventWindow.svelte";
     import {cityStore} from "../stores/stores";
     import {isLightStore} from "../stores/stores";
+
     let isLight = false;
     let map;
     let pos;
@@ -15,17 +16,20 @@
     let currentEvent
     let events = []
     let isLoading = true;
+    let mapReady = false;
     let lastCallToGoogleTimestamp = undefined;
+    let screenWidth
+    let screenHeight
+
+
     export let isLocal
-   
-    
-   
-    
-    function handleClickX(){
+
+    function handleClickX() {
         showEvent = false;
     }
+
     async function initMap() {                           //takes time to create the map, so this is carried out as a callback functiion, called in the onMount of this component.
-        const mapStyles = isLight  ? customSyleLight : customStyleDark;
+        const mapStyles = isLight ? customSyleLight : customStyleDark;
         map = new google.maps.Map(container, {
             zoom: 12,
             center: {lat: -34.397, lng: 150.644},
@@ -39,16 +43,25 @@
                 position: pos,
                 map: map,
                 icon: {
-                    url: '../../src/avatas/avata.png' ,
+                    url: '../../src/avatas/avata.png',
                     scaledSize: new google.maps.Size(50, 30),
                     anchor: new google.maps.Point(15, 15),
                 },
             });
-            
         }
+        mapReady = true
+        // map.addListener('bounds_changed', handleMapBoundsChanged);
+        // map.addListener('bounds_changed', handleMapBoundsChanged);
+        // map.addListener('resize', handleMapBoundsChanged);
+
         await createEvents()
     }
+
     onMount(async () => {
+
+        screenWidth = window.innerWidth
+        screenHeight = window.innerHeight
+        window.addEventListener('resize', handleResize)
         console.log($isLightStore)
         const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
         const script = document.createElement('script');
@@ -65,18 +78,30 @@
             }
         })
         const unsubsribedIsLight = isLightStore.subscribe(() => {
-            if($isLightStore === 'light') isLight = true 
-           initMap()
+            if ($isLightStore === 'light') isLight = true
+            initMap()
         })
         return [unsubsribedCity, unsubsribedIsLight];
-        
+
     });
+ 
+    async function handleResize() {
+        google.maps.event.trigger(map, 'resize');
+        await new Promise(res => setTimeout(res, 300))
+        screenWidth = window.innerWidth
+        screenHeight = window.innerHeight
+        google.maps.event.trigger(map, 'resize'); // triggers the map resize. can be used to reposition markers if needed
+    }
+
+    $: mapStyle = `width: ${screenWidth}px; height: ${screenHeight}px;`;
+
     const processEvents = async (events) => {
         console.log('processEvents called')
         function calculateCircleRadius(zoom) {
             const radiusFactor = 1500000;
             return radiusFactor / Math.pow(2, zoom);
         }
+
         const geocoder = new google.maps.Geocoder();
         for (let event of events) {
             try {
@@ -93,15 +118,15 @@
                                 position: results[0].geometry.location,
                                 map: map,
                                 icon: {
-                                    url:'',
+                                    url: '',
                                     anchor: new google.maps.Point(25, 25),
                                 },
                                 shape: shape
                             });
-                            const color = isLight ? 'dark':'white'
+                            const color = isLight ? 'dark' : 'white'
                             const url = event.image ? event.image : event.thumbnail
                             const iconImg = url;
-                           
+
                             const clippedIconImg = new Image();
                             clippedIconImg.crossOrigin = 'anonymous';
                             clippedIconImg.src = iconImg;
@@ -114,8 +139,8 @@
                             ctx.beginPath();
                             ctx.arc(50, 50, 25, 0, 2 * Math.PI);
                             ctx.clip();
-                            ctx.imageSmoothingQuality ='high'
-                            ctx.drawImage(clippedIconImg, 0, 0,100, 100);
+                            ctx.imageSmoothingQuality = 'high'
+                            ctx.drawImage(clippedIconImg, 0, 0, 100, 100);
                             ctx.beginPath();
                             ctx.arc(50, 50, 54, 0, 2 * Math.PI);
                             ctx.strokeStyle = color;
@@ -127,7 +152,7 @@
                                 scaledSize: new google.maps.Size(100, 100),
                                 anchor: new google.maps.Point(50, 50),
                             });
-                            
+
                             const circleInvisible = new google.maps.Circle({
                                 map: map,
                                 center: marker.getPosition(),
@@ -136,9 +161,9 @@
                                 strokeWeight: 0,
                                 fillOpacity: 0,
                             });
-                            
+
                             let markerImageSize = new google.maps.Size(200, 200);
-                            let markerImageAnchor = new google.maps.Point(100,100);
+                            let markerImageAnchor = new google.maps.Point(100, 100);
                             google.maps.event.addListener(circleInvisible, 'mouseover', function () {
                                 marker.setIcon({
                                     url: clippedIconUrl,
@@ -151,9 +176,9 @@
                             });
                             google.maps.event.addListener(circleInvisible, 'mouseout', function () {
                                 marker.setIcon({
-                                    url:clippedIconUrl,
+                                    url: clippedIconUrl,
                                     scaledSize: new google.maps.Size(100, 100),
-                                    anchor: new google.maps.Point(50,50)
+                                    anchor: new google.maps.Point(50, 50)
                                 });
                                 marker.setAnimation(null);
                                 circleInvisible.setRadius(calculateCircleRadius(map.getZoom()))
@@ -162,11 +187,17 @@
                                 showEvent = true;
                                 currentEvent = event;
                             });
+                            google.maps.event.addListener(marker, 'mousedown', function (event) {
+                                showEvent = true;
+                                currentEvent = event;
+                            });
+
+
                         }
                     }
                 )
-                await new Promise(res => setTimeout(res,80))
-            } catch(e) {
+                await new Promise(res => setTimeout(res, 80))
+            } catch (e) {
                 console.log(e)
             }
         }
@@ -179,8 +210,8 @@
         isLoading = true
         await new Promise(res => setTimeout(res, (lastCallToGoogleTimestamp + 10000) - Date.now()));
         console.log("finished waiting")
-        
-        if(isLocal) {
+
+        if (isLocal) {
             const geocoder = new google.maps.Geocoder();// this looks to see if current location was chosen, and creates markers around this location. 
             await geocoder.geocode({location: pos}, async (results, status) => {
                 if (status === 'OK') {
@@ -198,9 +229,8 @@
                     }
                 }
             })
-        }
-        else {
-            const geocoder =new google.maps.Geocoder();
+        } else {
+            const geocoder = new google.maps.Geocoder();
             events = await getEvents($cityStore)
             console.log(events)
             await processEvents(events)
@@ -214,10 +244,12 @@
                     console.error(`Geocode was not successful for the following reason: ${status}`);
                 }
             });
+            console.log('here')
             isLoading = false;
         }
         lastCallToGoogleTimestamp = Date.now();
     }
+
     async function getLocation(): Promise<{ lat: number, lng: number }> {
         try {
             const position = await new Promise<GeolocationPosition>((resolve, reject) => {
@@ -237,253 +269,255 @@
             throw error;
         }
     }
-    const customSyleLight = [  {    featureType: "poi",    elementType: "labels",    stylers: [{ visibility: "off" }]},
+
+    const customSyleLight = [{featureType: "poi", elementType: "labels", stylers: [{visibility: "off"}]},
         {
             featureType: "poi.park",
             elementType: "labels",
-            stylers: [{ visibility: "on" }]
+            stylers: [{visibility: "on"}]
         }, {
             featureType: "administrative.locality",
             elementType: "labels",
-            stylers: [{ visibility: "on" }]
-        },{
+            stylers: [{visibility: "on"}]
+        }, {
             featureType: "transit",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
-        },{
+            stylers: [{visibility: "off"}]
+        }, {
             featureType: "road",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
-        },{
+            stylers: [{visibility: "off"}]
+        }, {
             featureType: "administrative",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
-        },{
+            stylers: [{visibility: "off"}]
+        }, {
             featureType: "water",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
-        },{
+            stylers: [{visibility: "off"}]
+        }, {
             featureType: "landscape",
             elementType: "all",
-            stylers: [{ color: "#f2f2f2" }]
-        },{
+            stylers: [{color: "#f2f2f2"}]
+        }, {
             featureType: "road",
             elementType: "geometry",
-            stylers: [{ color: "#ffffff" }]
-        },{
+            stylers: [{color: "#ffffff"}]
+        }, {
             featureType: "poi",
             elementType: "geometry",
-            stylers: [{ color: "#ffffff" }]
-        },{
+            stylers: [{color: "#ffffff"}]
+        }, {
             featureType: "road",
             elementType: "labels.icon",
-            stylers: [{ visibility: "off" }]
-        },{
+            stylers: [{visibility: "off"}]
+        }, {
             featureType: "road.local",
             elementType: "labels.text.fill",
-            stylers: [{ color: "#666666" }]
-        },    {        "featureType": "all",        "elementType": "all",        "stylers": [            {                "saturation": -100            },            {                "lightness": 75            },            {                "gamma": 0.5            }        ]
+            stylers: [{color: "#666666"}]
+        }, {
+            "featureType": "all",
+            "elementType": "all",
+            "stylers": [{"saturation": -100}, {"lightness": 75}, {"gamma": 0.5}]
         },
-            {
-                "featureType": "all",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#444444"
-                    }
-                ]
-            },
-            {
-                "featureType": "all",
-                "elementType": "labels.text.stroke",
-                "stylers": [
-                    {
-                        "color": "#ffffff"
-                    },
-                    {
-                        "lightness": 16
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "color": "#ffffff"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative",
-                "elementType": "geometry.stroke",
-                "stylers": [
-                    {
-                        "color": "#555555"
-                    },
-                    {
-                        "lightness": 14
-                    },
-                    {
-                        "weight": 1.4
-                    }
-                ]
-            },
-            {
-                "featureType": "landscape",
-                "elementType": "all",
-                "stylers": [
-                    {
-                        "color": "#f7f7f7"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#eeeeee"
-                    },
-                    {
-                        "lightness": 5
-                    }
-                ]
-            },
-            {
-                "featureType": "road.highway",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "color": "grey"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.highway",
-                "elementType": "geometry.stroke",
-                "stylers": [
-                    {
-                        "color": "#dddddd"
-                    },
-                    {
-                        "lightness": 25
-                    }
-                ]
-            },
-            {
-                "featureType": "road.arterial",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "color": "#ffffff"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.arterial",
-                "elementType": "geometry.stroke",
-                "stylers": [
-                    {
-                        "color": "#dddddd"
-                    },
-                    {
-                        "lightness": 16
-                    }
-                ]
-            },
-            {
-                "featureType": "road.local",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "lightgrey"
-                    }
-                ]
-            },
-            {
-                "featureType": "transit",
-                "elementType": "all",
-                "stylers": [
-                    {
-                        "color": "#888888"
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "all",
-                "stylers": [
-                    {
-                        "color": "#c7eced"
-                    }
-                ]
-            }
-        ];
+        {
+            "featureType": "all",
+            "elementType": "labels.text.fill",
+            "stylers": [
+                {
+                    "color": "#444444"
+                }
+            ]
+        },
+        {
+            "featureType": "all",
+            "elementType": "labels.text.stroke",
+            "stylers": [
+                {
+                    "color": "#ffffff"
+                },
+                {
+                    "lightness": 16
+                }
+            ]
+        },
+        {
+            "featureType": "administrative",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {
+                    "color": "#ffffff"
+                }
+            ]
+        },
+        {
+            "featureType": "administrative",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "color": "#555555"
+                },
+                {
+                    "lightness": 14
+                },
+                {
+                    "weight": 1.4
+                }
+            ]
+        },
+        {
+            "featureType": "landscape",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#f7f7f7"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "color": "#eeeeee"
+                },
+                {
+                    "lightness": 5
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {
+                    "color": "grey"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "color": "#dddddd"
+                },
+                {
+                    "lightness": 25
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "geometry.fill",
+            "stylers": [
+                {
+                    "color": "#ffffff"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "color": "#dddddd"
+                },
+                {
+                    "lightness": 16
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "geometry",
+            "stylers": [
+                {
+                    "color": "lightgrey"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#888888"
+                }
+            ]
+        },
+        {
+            "featureType": "water",
+            "elementType": "all",
+            "stylers": [
+                {
+                    "color": "#c7eced"
+                }
+            ]
+        }
+    ];
 
 
-
-
-    const customStyleDark =  [  {    featureType: "poi",    elementType: "labels",    stylers: [{ visibility: "off" }]},
+    const customStyleDark = [{featureType: "poi", elementType: "labels", stylers: [{visibility: "off"}]},
         {
             featureType: "poi.park",
             elementType: "labels",
-            stylers: [{ visibility: "on" }]
+            stylers: [{visibility: "on"}]
         }, {
             featureType: "administrative.locality",
             elementType: "labels",
-            stylers: [{ visibility: "on" }]
-        },{
-        featureType: "transit",
+            stylers: [{visibility: "on"}]
+        }, {
+            featureType: "transit",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
-    },{
-        featureType: "road",
+            stylers: [{visibility: "off"}]
+        }, {
+            featureType: "road",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
-    },{
-        featureType: "administrative",
+            stylers: [{visibility: "off"}]
+        }, {
+            featureType: "administrative",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
-    },{
-        featureType: "water",
+            stylers: [{visibility: "off"}]
+        }, {
+            featureType: "water",
             elementType: "labels",
-            stylers: [{ visibility: "off" }]
-    },{
-        featureType: "landscape",
+            stylers: [{visibility: "off"}]
+        }, {
+            featureType: "landscape",
             elementType: "all",
-            stylers: [{ color: "#f2f2f2" }]
-    },{
-        featureType: "road",
+            stylers: [{color: "#f2f2f2"}]
+        }, {
+            featureType: "road",
             elementType: "geometry",
-            stylers: [{ color: "#ffffff" }]
-    },{
-        featureType: "poi",
+            stylers: [{color: "#ffffff"}]
+        }, {
+            featureType: "poi",
             elementType: "geometry",
-            stylers: [{ color: "#ffffff" }]
-    },{
-        featureType: "road",
+            stylers: [{color: "#ffffff"}]
+        }, {
+            featureType: "road",
             elementType: "labels.icon",
-            stylers: [{ visibility: "off" }]
-    },{
-        featureType: "road.local",
+            stylers: [{visibility: "off"}]
+        }, {
+            featureType: "road.local",
             elementType: "labels.text.fill",
-            stylers: [{ color: "#666666" }]
-    },
-        
+            stylers: [{color: "#666666"}]
+        },
+
         {
             "featureType": "all",
             "elementType": "all",
             "stylers":
-                
+
                 [
-                {
-                    "saturation": -100
-                },
-                {
-                    "gamma": 0.5
-                }
-            ]
+                    {
+                        "saturation": -100
+                    },
+                    {
+                        "gamma": 0.5
+                    }
+                ]
         },
         {
             "featureType": "all",
@@ -623,15 +657,19 @@
     ];
 </script>
 <style>
-   
+
     .full-screen {
-        width: 100vw;
-        height: 100vh;
-        margin-left: -8px;
+        position: relative;
+        overflow: hidden;
+
+        width: 100%;
+        height: 100%
     }
+
     .loading {
-        margin-bottom: -30px;
+
         position: absolute;
+        overflow: hidden;
         top: 0;
         left: 0;
         right: 0;
@@ -644,6 +682,7 @@
         justify-content: center;
         align-items: center;
     }
+
     @keyframes gradient {
         0% {
             background-position: 0% 50%;
@@ -660,12 +699,9 @@
     {#if isLoading}
         <h1>Retrieving your events!</h1>
     {/if}
-    
 </div>
-<NavBar  ></NavBar>
-<div id = "map" bind:this={container} class="full-screen"></div>
+<NavBar></NavBar>
+<div id="map" style={mapStyle} bind:this={container} class="full-screen"></div>
 {#if showEvent}
-    <EventWindow  handleXclick ={handleClickX} id = 'eventWindow' event = {currentEvent} ></EventWindow>
+    <EventWindow handleXclick={handleClickX} id='eventWindow' event={currentEvent}></EventWindow>
 {/if}
-
-

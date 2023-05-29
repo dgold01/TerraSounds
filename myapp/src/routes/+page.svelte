@@ -109,8 +109,15 @@
     }
     
 </script>
+<style>
+    .map-container {
+        overflow: hidden;
+    }
+</style>
 {#if showMapPage}
-   <Map  isLocal = {isLocal}></Map>
+    <div class="map-container">
+        <Map isLocal={isLocal}></Map>
+    </div>
 {:else if showSavedEventsPage}
     <SavedEvents></SavedEvents>
 {:else if showLoginPage}

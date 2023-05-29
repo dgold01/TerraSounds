@@ -3,25 +3,37 @@
         import CitySearch from "./CitySearch.svelte";
         import {signedInStore} from "../stores/stores";
         export let showSearch
-        import {getContext} from "svelte";
+        import {getContext, onMount} from "svelte";
         const chooseCityHandleClick = getContext('chooseCityHandleClick')
         const currentLocationHandleClick = getContext('currentLocationHandleClick')
         const showSignUp = getContext('showSignUp')
         const showSignIn = getContext('showSignIn')
         const showSavedEvents = getContext('showSavedEvents')
         const showProfile = getContext('showProfile')
-        
+        import {fade,scale} from "svelte/transition"
+        import { quintOut } from "svelte/easing";
+        let screenWidth
+        let screenHeight
+        onMount(()=>{
+            screenWidth = window.innerWidth
+            screenHeight = window.innerHeight
+            window.addEventListener('resize',()=>{
+                screenWidth = window.innerWidth
+                screenHeight = window.innerHeight
+            })
+        })
+        $: containerStyle = `width: ${screenWidth}px; height: ${screenHeight}px;`;
     </script>
-    <div class="container">
+    <div style={containerStyle}  class="container">
         <div class="header">
             <h1 class="logo">TerraSounds</h1>
             <div class="nav">
                 {#if $signedInStore}
-                    <a on:click ={showSavedEvents} href="#">Saved Events</a>
-                    <a on:click ={showProfile} href="#">Profile</a>
+                    <a on:click ={showSavedEvents} href="/google.com">Saved Events</a>
+                    <a on:click ={showProfile} href="/google.com">Profile</a>
                     {:else}
-                    <a on:click ={showSignIn} href="#">Login</a>
-                    <a on:click ={showSignUp}  href="#">Sign up</a>
+                    <a on:click ={showSignIn} href="/google.com">Login</a>
+                    <a on:click ={showSignUp}  href="/google.com">Sign up</a>
                     {/if}
             </div>
         </div>
@@ -35,8 +47,8 @@
             {/if}
             </span>
             <span></span>
-            <div class="earth">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/1024px-The_Earth_seen_from_Apollo_17.jpg" alt="Earth" />
+            <div  class="earth">
+                <img transition:scale = {{ delay: 250, duration: 300, easing: quintOut }} src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/1024px-The_Earth_seen_from_Apollo_17.jpg" alt="Earth" />
             </div>
             <h2 class="title">Discover music events from around the world</h2>
         </div>
@@ -45,25 +57,20 @@
 
 <style>
     .container {
-        margin-top :-8px;
-        margin-left: -8px;
-        margin-bottom:-80px;
-        width: 100vw;
-        height: 100vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         background-color: #ff69b4;
     }
-
-    .header {
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        width: 100%;
-        padding: 1rem;
-    }
+    
+    /*.header {*/
+    /*    display: flex;*/
+    /*    justify-content: space-around;*/
+    /*    align-items: center;*/
+    /*    width: 100%;*/
+    /*    padding: 1rem;*/
+    /*}*/
 
     .logo {
         position: absolute;
