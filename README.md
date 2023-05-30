@@ -1,19 +1,25 @@
 # TerraSounds
 Discover Music Near You: Explore Events on the Map
 
-App features:
-<br>
-Search for music events on a resposvive app that works on any device.
-<br>
-Discover new artsists wherever you are, can display their bio, photos, and upcoming performances.
-<br>
-Save and share events to friends, purchase tickets or add events to their calendar.
-<br>
-Plan your concert experience or look back at your concert history.
-<br>
-Connect with other music lovers.
-<br>
-Have events suggested based on data from your music preference.
+# App features:
+
+<h3>Search for Music Events on a Responsive App</h3>
+Search for music events using our responsive app that works seamlessly on any device.
+
+<h3>Discover New Artsists</h3>
+Explore and discover new artists wherever you are. Get access to their bios, photos, and upcoming performances.
+
+<h3>Save and Share Events</h3>
+Save and share your favorite events with friends. Purchase tickets or add events directly to your calendar.
+
+<h3>Plan Your Concert Experience</h3>
+Plan your next concert experience effortlessly. Look back at your concert history and relive those amazing moments.
+
+<h3>Connect with Music Lovers</h3>
+Connect and engage with fellow music lovers. Share event information, create playlists, and connect with other attendees.
+
+<h3>Personalized Event Suggestions</h3>
+Get event suggestions tailored to your music preferences. Our app analyzes your data to recommend events you'll love.
 
 
 # Getting started
