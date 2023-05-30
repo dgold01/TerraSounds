@@ -25,10 +25,10 @@ Get event suggestions tailored to your music preferences. Our app analyzes your 
 # Getting started
 Make sure you have Node.js installed or install it. Install the dependencies by running npm install command in the server and client directories.
 
-To start a local development server:
+To start a local development server:<br>
 run `nodemon index.ts` command from `server` directory
 
-To start the front end development server:
+To start the front end development server:<br>
 run `npm run dev` command from `myapp` directory
 
 # Tech stack
