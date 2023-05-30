@@ -26,6 +26,10 @@ Get event suggestions tailored to your music preferences. Our app analyzes your 
 Make sure you have Node.js installed or install it. Install the dependencies by running npm install command in the server and client directories.
 
 To start a local development server:
+run `nodemon index.ts` command from `server` directory
+
+To start the front end development server:
+run `npm run dev` command from `myapp` directory
 
 # Tech stack
 TypeScript on both frontend and the backend
@@ -33,6 +37,8 @@ TypeScript on both frontend and the backend
 ## Front end
 SvelteKit<br>
 Google Maps Platform
+<br>
+Google Search API
 
 ## Back end
 MongoDB with Mongoose ODM library<br>
