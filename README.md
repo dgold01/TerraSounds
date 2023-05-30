@@ -2,6 +2,7 @@
 Discover Music Near You: Explore Events on the Map
 
 App features:
+<br>
 Search for music events on a resposvive app that works on any device.
 <br>
 Discover new artsists wherever you are, can display their bio, photos, and upcoming performances.
