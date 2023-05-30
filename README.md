@@ -1,5 +1,5 @@
 # TerraSounds
-Discover Music Near You: Explore Events on the Map
+Discover the Beat, Share the Experience: Find, Connect, and Groove Together!
 
 # App features:
 
