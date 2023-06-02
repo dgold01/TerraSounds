@@ -1,11 +1,11 @@
 <!-- Map.svelte -->
 <script lang="ts">
-    import {onMount, afterUpdate} from 'svelte';
+    import {onMount} from 'svelte';
+    import {GoogleSpin} from "svelte-loading-spinners";
     import {getEvents} from "./ApiServices/eventsApiService";
     import NavBar from "./NavBar.svelte";
     import EventWindow from "./EventWindow.svelte";
-    import {cityStore} from "../stores/stores";
-    import {isLightStore} from "../stores/stores";
+    import {cityStore, isLocalStore, isLightStore} from '../stores/stores'
 
     let isLight = false;
     let map;
@@ -20,13 +20,31 @@
     let lastCallToGoogleTimestamp = undefined;
     let screenWidth
     let screenHeight
-
-
-    export let isLocal
-
-    function handleClickX() {
-        showEvent = false;
-    }
+    $: mapStyle = `width: ${screenWidth}px; height: ${screenHeight}px;`;
+    $: loadingStyle = `width: ${screenWidth}px; height: ${screenHeight}px;`;
+    onMount(async () => {
+        screenWidth = window.innerWidth
+        screenHeight = window.innerHeight
+        window.addEventListener('resize', handleResize)
+        const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=geometry&callback=initMap`;
+        script.async = true;
+        window.initMap = initMap;
+        document.head.appendChild(script);
+        const unsubsribedCity = cityStore.subscribe(() => {
+            if (window.google) {
+                isLocalStore.set(false)
+                console.log($cityStore)
+                createEvents()
+            }
+        })
+        const unsubsribedIsLight = isLightStore.subscribe(() => {
+            if ($isLightStore === 'light') isLight = true
+            initMap()
+        })
+        return [unsubsribedCity, unsubsribedIsLight];
+    });
 
     async function initMap() {                           //takes time to create the map, so this is carried out as a callback functiion, called in the onMount of this component.
         const mapStyles = isLight ? customSyleLight : customStyleDark;
@@ -36,7 +54,7 @@
             disableDefaultUI: true,
             styles: mapStyles
         });
-        if (isLocal) {
+        if ($isLocalStore) {
             pos = await getLocation()
             map.setCenter(pos);
             const marker = new google.maps.Marker({
@@ -50,53 +68,21 @@
             });
         }
         mapReady = true
-        // map.addListener('bounds_changed', handleMapBoundsChanged);
-        // map.addListener('bounds_changed', handleMapBoundsChanged);
-        // map.addListener('resize', handleMapBoundsChanged);
-
         await createEvents()
     }
 
-    onMount(async () => {
+    function handleClickX() {
+        showEvent = false;
+    }
 
-        screenWidth = window.innerWidth
-        screenHeight = window.innerHeight
-        window.addEventListener('resize', handleResize)
-        console.log($isLightStore)
-        const apiKey = 'AIzaSyAGpf3gwawGK3DfP6JwycdkT4G_okHONm4'
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=geometry&callback=initMap`;
-        script.async = true;
-        window.initMap = initMap;
-        document.head.appendChild(script);
-        const unsubsribedCity = cityStore.subscribe(() => {
-            if (window.google) {
-                isLocal = false
-                console.log($cityStore)
-                //await new Promise(res => setTimeout(res, 1000))
-                createEvents()
-            }
-        })
-        const unsubsribedIsLight = isLightStore.subscribe(() => {
-            if ($isLightStore === 'light') isLight = true
-            initMap()
-        })
-        return [unsubsribedCity, unsubsribedIsLight];
-
-    });
- 
     async function handleResize() {
-        google.maps.event.trigger(map, 'resize');
         await new Promise(res => setTimeout(res, 300))
         screenWidth = window.innerWidth
         screenHeight = window.innerHeight
         google.maps.event.trigger(map, 'resize'); // triggers the map resize. can be used to reposition markers if needed
     }
 
-    $: mapStyle = `width: ${screenWidth}px; height: ${screenHeight}px;`;
-
     const processEvents = async (events) => {
-        console.log('processEvents called')
         function calculateCircleRadius(zoom) {
             const radiusFactor = 1500000;
             return radiusFactor / Math.pow(2, zoom);
@@ -152,7 +138,6 @@
                                 scaledSize: new google.maps.Size(100, 100),
                                 anchor: new google.maps.Point(50, 50),
                             });
-
                             const circleInvisible = new google.maps.Circle({
                                 map: map,
                                 center: marker.getPosition(),
@@ -161,7 +146,6 @@
                                 strokeWeight: 0,
                                 fillOpacity: 0,
                             });
-
                             let markerImageSize = new google.maps.Size(200, 200);
                             let markerImageAnchor = new google.maps.Point(100, 100);
                             google.maps.event.addListener(circleInvisible, 'mouseover', function () {
@@ -191,8 +175,6 @@
                                 showEvent = true;
                                 currentEvent = event;
                             });
-
-
                         }
                     }
                 )
@@ -206,12 +188,10 @@
     const createEvents = async () => {
         // await processEvents(events)
         console.log("createEvents called")
-        console.log(isLocal)
         isLoading = true
         await new Promise(res => setTimeout(res, (lastCallToGoogleTimestamp + 10000) - Date.now()));
         console.log("finished waiting")
-
-        if (isLocal) {
+        if ($isLocalStore) {
             const geocoder = new google.maps.Geocoder();// this looks to see if current location was chosen, and creates markers around this location. 
             await geocoder.geocode({location: pos}, async (results, status) => {
                 if (status === 'OK') {
@@ -221,7 +201,6 @@
                         if (types.includes("locality") || types.includes("administrative_area_level_2")) {
                             city = addressComponents[i].long_name;
                             events = await getEvents(city)
-                            // console.log(events.length)
                             await processEvents(events) // waits for the markers to be created
                             isLoading = false;
                             break;
@@ -230,6 +209,7 @@
                 }
             })
         } else {
+            console.log($cityStore, 'here')
             const geocoder = new google.maps.Geocoder();
             events = await getEvents($cityStore)
             console.log(events)
@@ -269,7 +249,6 @@
             throw error;
         }
     }
-
     const customSyleLight = [{featureType: "poi", elementType: "labels", stylers: [{visibility: "off"}]},
         {
             featureType: "poi.park",
@@ -456,8 +435,6 @@
             ]
         }
     ];
-
-
     const customStyleDark = [{featureType: "poi", elementType: "labels", stylers: [{visibility: "off"}]},
         {
             featureType: "poi.park",
@@ -661,20 +638,11 @@
     .full-screen {
         position: relative;
         overflow: hidden;
-
-        width: 100%;
-        height: 100%
+        z-index: 2;
     }
 
     .loading {
-
-        position: absolute;
-        overflow: hidden;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: linear-gradient(135deg, #673ab7, #e91e63, #ffeb3b);
+        background: linear-gradient(135deg, #2c3e50, #8e44ad);
         background-size: 600% 600%;
         animation: gradient 5s ease infinite;
         z-index: 10;
@@ -682,7 +650,9 @@
         justify-content: center;
         align-items: center;
     }
-
+    .notLoading {
+        display: none;
+    }
     @keyframes gradient {
         0% {
             background-position: 0% 50%;
@@ -695,12 +665,13 @@
         }
     }
 </style>
-<div class={isLoading ? 'loading' : ''}>
+<NavBar></NavBar>
+<div style={loadingStyle} class={isLoading ? 'loading' : 'notLoading'}>
     {#if isLoading}
-        <h1>Retrieving your events!</h1>
+        <GoogleSpin size="100px"></GoogleSpin>
     {/if}
 </div>
-<NavBar></NavBar>
+
 <div id="map" style={mapStyle} bind:this={container} class="full-screen"></div>
 {#if showEvent}
     <EventWindow handleXclick={handleClickX} id='eventWindow' event={currentEvent}></EventWindow>

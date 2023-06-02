@@ -1,5 +1,6 @@
 
 export async function getEvents(location) {
+    console.log(location)
     const response = await fetch('https://terra-sounds-backend.fly.dev/events/'+location)
     const events = await response.json()
     try{ 

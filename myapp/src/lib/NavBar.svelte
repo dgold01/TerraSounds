@@ -9,6 +9,7 @@
   const showProfile = getContext('showProfile')
   import Switch from "$lib/Switch.svelte";
   import {isLightStore} from "../stores/stores";
+ 
   
 </script>
 
@@ -79,6 +80,7 @@
 
     
     .navbar {
+        overflow: hidden;
         z-index: 20;
         background-color: #ff69b4;
         color: #fff;
