@@ -249,6 +249,7 @@
             throw error;
         }
     }
+
     const customSyleLight = [{featureType: "poi", elementType: "labels", stylers: [{visibility: "off"}]},
         {
             featureType: "poi.park",
@@ -650,9 +651,11 @@
         justify-content: center;
         align-items: center;
     }
+
     .notLoading {
         display: none;
     }
+
     @keyframes gradient {
         0% {
             background-position: 0% 50%;
@@ -665,13 +668,13 @@
         }
     }
 </style>
-<NavBar></NavBar>
-<div style={loadingStyle} class={isLoading ? 'loading' : 'notLoading'}>
-    {#if isLoading}
-        <GoogleSpin size="100px"></GoogleSpin>
-    {/if}
-</div>
 
+{#if isLoading}
+    <div style={loadingStyle} class='loading'>
+        <GoogleSpin size="100px"></GoogleSpin>
+    </div>
+{/if}
+<NavBar></NavBar>
 <div id="map" style={mapStyle} bind:this={container} class="full-screen"></div>
 {#if showEvent}
     <EventWindow handleXclick={handleClickX} id='eventWindow' event={currentEvent}></EventWindow>

@@ -7,14 +7,10 @@
     let showSearch = false;
 
     // let userId
-
-
-    import {cityStore, isLocalStore, signedInStore} from "../stores/stores";
+    
 
     // setContext('handleSignIn',handleSignIn)
-    setContext('currentLocationHandleClick', currentLocationHandleClick)
-    setContext('chooseCityHandleClick', chooseCityHandleClick)
-    setContext('searchCityHandleClick', searchCityHandleClick)
+ 
     // setContext('showSignUp',showSignUp)
     // setContext('showSignIn',showSignIn)
    
@@ -33,18 +29,11 @@
     //     showHomePage = true
     //    
     // }
-    function currentLocationHandleClick() {
-        isLocalStore.set(true)
-        setTimeout(() => goto("/map"), 0) // Ensures Map Page is fully rendered before
-    }
+   
     function chooseCityHandleClick() {
         showSearch = true
     }
-    function searchCityHandleClick(input) {
-        isLocalStore.set(false)
-        cityStore.set(input)
-        setTimeout(() => goto("/map"), 0) // Ensures Map Page is fully rendered before
-    }
+    
 </script>
 <style>
     /*.map-container {*/
@@ -58,4 +47,4 @@
 <!--    <SignUpPage  ></SignUpPage>-->
 
 
-<HomePage {showSearch}></HomePage>
+<HomePage {showSearch} {chooseCityHandleClick}></HomePage>

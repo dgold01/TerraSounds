@@ -1,12 +1,12 @@
 <script lang="ts">
 
     import CitySearch from "./CitySearch.svelte";
-    import {signedInStore} from "../stores/stores";
+    import {signedInStore,searchLocal} from "../stores/stores";
 
     export let showSearch
+    export let chooseCityHandleClick
     import {getContext, onMount} from "svelte";
-
-    const chooseCityHandleClick = getContext('chooseCityHandleClick')
+    
     const currentLocationHandleClick = getContext('currentLocationHandleClick')
     const showSignUp = getContext('showSignUp')
     const showSignIn = getContext('showSignIn')
@@ -41,7 +41,7 @@
 
     <div class="hero">
             <span>
-            <button id='current' class="cta" on:click={currentLocationHandleClick}>Current Location</button>
+            <button id='current' class="cta" on:click={searchLocal}>Current Location</button>
             <button id='choose' class="cta" on:click={chooseCityHandleClick}>Choose Location</button>
                 {#if showSearch}
                 <div class ='searchContainer'>
