@@ -192,7 +192,6 @@
         margin-right:-270px;
         margin-left: 10px;
         font-size: 15px;
-        ;
         color: #ffffff;
         text-decoration: none;
         border-bottom: 2px solid #ffffff;

@@ -1,7 +1,7 @@
 
 
 export async function getUsers() {
-    const response = await fetch('http://localhost:3002/users')
+    const response = await fetch('http://terra-sounds-backend.fly.dev/users')
     const users = await response.json()
     console.log(users)
     return users
@@ -15,7 +15,7 @@ export async function saveUser(name, email, password) {
         password
     }
     console.log(user)
-    const response = await fetch ('http://localhost:3002/users',{
+    const response = await fetch ('http://terra-sounds-backend.fly.dev/users',{
         method: "POST",
         headers:{
             "Content-Type": "application/json"

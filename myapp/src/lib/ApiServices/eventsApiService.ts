@@ -1,6 +1,7 @@
 
 export async function getEvents(location) {
-    const response = await fetch('http://localhost:3002/events/'+location)
+    console.log(location)
+    const response = await fetch('https://terra-sounds-backend.fly.dev/events/'+location)
     const events = await response.json()
     try{ 
         console.log(events)
@@ -16,7 +17,7 @@ export async function getEvents(location) {
 
 export async function getSavedEvents() {
    
-    const response = await fetch('http://localhost:3002/saved')
+    const response = await fetch('http://terra-sounds-backend.fly.dev/saved')
     const events = await response.json()
     console.log(events)
     return events
@@ -26,7 +27,7 @@ export async function saveEvent(event) {
     console.log('saved')
     const saveEvent = {title:event.title,date:event.date.when,address:event.address.toString(),link:event.link,image:event.image, venue:event.venue.name }
     console.log(saveEvent)
-    const response = await fetch ('http://localhost:3002/saved',{
+    const response = await fetch ('http://terra-sounds-backend.fly.dev/saved',{
         method: "POST",
         headers:{
             "Content-Type": "application/json"
@@ -38,7 +39,7 @@ export async function saveEvent(event) {
 
 export async function deleteEvent(_id) {
     console.log('deleted')
-    const response = await fetch('http://localhost:3002/saved/'+_id,{
+    const response = await fetch('http://terra-sounds-backend.fly.dev/saved/'+_id,{
         method: "DELETE"    
     })
     let result = await response.json()

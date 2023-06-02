@@ -1,34 +1,46 @@
 <script lang="ts">
-    
-    import {getContext} from "svelte";
-    const searchCityHandleClick = getContext('searchCityHandleClick')
+
+    import {searchNotLocal} from "../stores/stores";
+
     let value = '';
 </script>
 
 
 <form>
-    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"></label>
+    <label for="default-search"></label>
     <div class="relative">
-        <input bind:value type="search" id="default-search" class="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="city name" required>
-        <button on:click={searchCityHandleClick(value)} type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+        <input bind:value type="search" id="default-search" placeholder="city name" required>
+        <button on:click={()=>searchNotLocal(value)} type="submit"><img class='imageButton'
+                                                                        src="../../src/avatas/earthButton.png">
+        </button>
+
     </div>
 </form>
 
 <style>
-   #default-search{
-       height: 30px;
-   }
-   button{
-       padding-bottom: 15px;
-       height: 30px;
-       border-radius: 5px;
-       border: none;
-       outline: none;
-       font-size: 1.2rem;
-       background-color: #00b4d8;
-       color: white;
-       cursor: pointer;
-       transition: all 0.3s ease;
-   }
-   
+    #default-search {
+        height: 2.5vw;
+    }
+
+    input {
+        border-radius: 0.5vw;
+    }
+
+    .imageButton {
+        width: 3vw;
+        color: magenta;
+    }
+
+    button {
+
+        position: absolute;
+        padding-right: 2vw;
+        margin-top: -0.3vw;
+        border: none;
+        background: none;
+
+
+        cursor: pointer;
+    }
+
 </style>
