@@ -39,11 +39,15 @@
                 createEvents()
             }
         })
-        const unsubsribedIsLight = isLightStore.subscribe(() => {
-            if ($isLightStore === 'light') isLight = true
+        const unsubsribedIsLocal = isLocalStore.subscribe(() => {
+            isLoading = true
             initMap()
         })
-        return [unsubsribedCity, unsubsribedIsLight];
+        const unsubsribedIsLight = isLightStore.subscribe(() => {
+            isLight = $isLightStore === 'light';
+            initMap()
+        })
+        return [unsubsribedCity, unsubsribedIsLight,unsubsribedIsLocal];
     });
 
     async function initMap() {                           //takes time to create the map, so this is carried out as a callback functiion, called in the onMount of this component.
@@ -643,6 +647,7 @@
     }
 
     .loading {
+        position: absolute;
         background: linear-gradient(135deg, #2c3e50, #8e44ad);
         background-size: 600% 600%;
         animation: gradient 5s ease infinite;
@@ -652,9 +657,6 @@
         align-items: center;
     }
 
-    .notLoading {
-        display: none;
-    }
 
     @keyframes gradient {
         0% {
@@ -673,9 +675,10 @@
     <div style={loadingStyle} class='loading'>
         <GoogleSpin size="100px"></GoogleSpin>
     </div>
+{:else}
+    <NavBar></NavBar>
+    {#if showEvent}
+        <EventWindow handleXclick={handleClickX} id='eventWindow' event={currentEvent}></EventWindow>
+    {/if}
 {/if}
-<NavBar></NavBar>
 <div id="map" style={mapStyle} bind:this={container} class="full-screen"></div>
-{#if showEvent}
-    <EventWindow handleXclick={handleClickX} id='eventWindow' event={currentEvent}></EventWindow>
-{/if}

@@ -29,7 +29,6 @@
         })
     }
 </script>
-
 <div  class="popup">
     <div class="popup-content">
         <div class="popup-header">
@@ -82,7 +81,7 @@
         margin-left: 10px;
         border: none;
         border-radius: 5px;
-        background-color: #ff69b4;
+        background-color: #f3c2c2;
         color: white;
         font-size: 16px;
         cursor: pointer;

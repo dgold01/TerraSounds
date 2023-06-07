@@ -1,19 +1,20 @@
 <script lang="ts">
     import HomePage from "../lib/HomePage.svelte";
+    import Login from "../lib/Login.svelte";
     import {goto} from '$app/navigation';
     import {getUsers} from "../lib/ApiServices/usersApiService";
     import {setContext} from 'svelte'
-
+    let showLogin = false;
     let showSearch = false;
 
     // let userId
-    
+
 
     // setContext('handleSignIn',handleSignIn)
- 
+
     // setContext('showSignUp',showSignUp)
     // setContext('showSignIn',showSignIn)
-   
+
 
     // async function handleSignIn(email) {
     //     let users = []
@@ -29,11 +30,14 @@
     //     showHomePage = true
     //    
     // }
-   
+
     function chooseCityHandleClick() {
         showSearch = true
     }
-    
+    function handleShowLogin(){
+        showLogin = !showLogin;
+    }
+
 </script>
 <style>
     /*.map-container {*/
@@ -47,4 +51,7 @@
 <!--    <SignUpPage  ></SignUpPage>-->
 
 
-<HomePage {showSearch} {chooseCityHandleClick}></HomePage>
+<HomePage {showSearch} {handleShowLogin} {chooseCityHandleClick}></HomePage>
+{#if showLogin}
+    <Login {handleShowLogin}></Login>
+{/if}

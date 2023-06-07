@@ -5,7 +5,9 @@
 
     export let showSearch
     export let chooseCityHandleClick
+    export let handleShowLogin
     import {getContext, onMount} from "svelte";
+    import {Button} from "flowbite-svelte";
     
     const currentLocationHandleClick = getContext('currentLocationHandleClick')
     const showSignUp = getContext('showSignUp')
@@ -33,8 +35,8 @@
                 <a href="/SavedEvents">Saved Events</a>
                 <a href="/Profile">Profile</a>
             {:else}
-                <a class="button-link" href="/LogIn">Login</a>
-                <a class="button-link" href="/SignIn">Sign up</a>
+                <button class="button-link" on:click = {handleShowLogin}>Login</button>
+                <button class="button-link" on:click = {handleShowLogin}>Sign up</button>
             {/if}
         </div>
     </div>
@@ -89,29 +91,31 @@
         position: absolute;
         font-family: 'Bebas Neue', sans-serif;
         top: 12.5vw;
-        left: 3vw;
+        left: 4vw;
         font-size: 11.2vw;
         font-weight: bold;
         color: darkblue;
         letter-spacing: 5vw;
     }
     .logo2 {
+        font-family: 'Roboto',sans-serif;
         position: absolute;
         top: 12.5vw;
+        margin-left: -1vw;
         font-size: 11.2vw;
         font-weight: bold;
         color: darkgoldenrod;
     
     }
     .logo3 {
+        font-family: 'Roboto',sans-serif;
         position: absolute;
-        margin-left:  70vw;
+        margin-left:  69vw;
         top: 12.5vw;
         left: 0.5vw;
         font-size: 11.2vw;
-        font-weight: bold;
         color: darkgoldenrod;
-        letter-spacing: 1vw;
+        
 
     }
     .button-link {
@@ -123,7 +127,8 @@
         border: none;
         border-radius: 2vw;
         text-decoration: none;
-        
+        cursor: pointer;
+        font-size: 15px;
     }
 
 
@@ -134,6 +139,19 @@
         display: flex;
         justify-content: flex-end;
         gap: 1rem;
+    }
+    .nav button {
+        opacity: 1;
+        transition: opacity 0.2s ease-in-out;
+    }
+
+    .nav button:hover {
+        opacity: 0.8;
+    }
+
+    .nav a.active {
+        opacity: 1;
+        font-weight: bold;
     }
 
     .nav a {

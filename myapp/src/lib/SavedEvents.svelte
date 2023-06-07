@@ -75,7 +75,7 @@
     }
     .background{
         margin :-8px;
-        background-color:  #ff69b4;
+        background-color:  #f3c2c2;;
         height: 100vh;
        
     }
