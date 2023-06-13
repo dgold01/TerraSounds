@@ -1,21 +1,40 @@
 <script lang="ts">
 
-    import CitySearch from "./CitySearch.svelte";
-    import {signedInStore,searchLocal} from "../stores/stores";
+    import {signedInStore} from "../stores/stores.js";
+ 
+
+    let searchLocal
 
     export let showSearch
     export let chooseCityHandleClick
     export let handleShowLogin
-    import {getContext, onMount} from "svelte";
-    import {Button} from "flowbite-svelte";
-    
-    const currentLocationHandleClick = getContext('currentLocationHandleClick')
-    const showSignUp = getContext('showSignUp')
-    const showSignIn = getContext('showSignIn')
+    export let CitySearch
+
+    import {onMount} from "svelte";
+
 
     let screenWidth
     let screenHeight
+
+    function getCookie(name) {
+        const value = "; " + document.cookie;
+        const parts = value.split("; " + name + "=");
+        if (parts.length === 2) return parts.pop().split(";").shift();
+    }
+    
+ 
+    
+    async function loadSearchLocal() {
+        const module = await import ('./routingFunctions/routingFunctions')
+        searchLocal = module.searchLocal
+    }
+
     onMount(() => {
+        const token = getCookie('token');
+        const userId = localStorage.getItem('userId')
+        if(userId || token){
+            signedInStore.set(true)
+        }
         screenWidth = window.innerWidth
         screenHeight = window.innerHeight
         window.addEventListener('resize', () => {
@@ -27,26 +46,26 @@
 </script>
 <div style={containerStyle} class="container">
     <div class="header">
-        <h1 class="logo1"  >Terra</h1>
-        <h1 class="logo2"  >S</h1>
-        <h1 class="logo3"  >unds</h1>
+        <h1 class="logo1">Terra</h1>
+        <h1 class="logo2">S</h1>
+        <h1 class="logo3">unds</h1>
         <div class="nav">
             {#if $signedInStore}
-                <a href="/SavedEvents">Saved Events</a>
-                <a href="/Profile">Profile</a>
+                <a class="nav-button-link" href="/SavedEvents">Saved Events</a>
+                <a class="nav-button-link" href="/Profile">Account</a>
             {:else}
-                <button class="button-link" on:click = {handleShowLogin}>Login</button>
-                <button class="button-link" on:click = {handleShowLogin}>Sign up</button>
+                <button class="nav-button" on:click={handleShowLogin}>Login</button>
+                <button class="nav-button" on:click={handleShowLogin}>Sign up</button>
             {/if}
         </div>
     </div>
 
     <div class="hero">
             <span>
-            <button id='current' class="cta" on:click={searchLocal}>Current Location</button>
+            <button id='current' class="cta" on:click={async ()=>{await loadSearchLocal(); searchLocal()}}>Current Location</button>
             <button id='choose' class="cta" on:click={chooseCityHandleClick}>Choose Location</button>
                 {#if showSearch}
-                <div class ='searchContainer'>
+                <div class='searchContainer'>
                       <CitySearch></CitySearch>
                 </div>
             {/if}
@@ -56,7 +75,7 @@
             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/The_Earth_seen_from_Apollo_17.jpg/1024px-The_Earth_seen_from_Apollo_17.jpg"
                  alt="Earth"/>
         </div>
-        
+
     </div>
 </div>
 
@@ -64,6 +83,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
     .container {
         display: flex;
         flex-direction: column;
@@ -71,10 +91,12 @@
         justify-content: center;
         background-color: #f3c2c2;
     }
-    .searchContainer{
+
+    .searchContainer {
         position: absolute;
-        left:43%;
+        left: 43%;
     }
+
     /*.header {*/
     /*    display: flex;*/
     /*    justify-content: space-around;*/
@@ -82,11 +104,12 @@
     /*    width: 100%;*/
     /*    padding: 1rem;*/
     /*}*/
-    .logoImage{
+    .logoImage {
         position: absolute;
-        top:0;
+        top: 0;
         left: 0;
     }
+
     .logo1 {
         position: absolute;
         font-family: 'Bebas Neue', sans-serif;
@@ -97,28 +120,31 @@
         color: darkblue;
         letter-spacing: 5vw;
     }
+
     .logo2 {
-        font-family: 'Roboto',sans-serif;
+        font-family: 'Roboto', sans-serif;
         position: absolute;
         top: 12.5vw;
         margin-left: -1vw;
         font-size: 11.2vw;
         font-weight: bold;
         color: darkgoldenrod;
-    
+
     }
+
     .logo3 {
-        font-family: 'Roboto',sans-serif;
+        font-family: 'Roboto', sans-serif;
         position: absolute;
-        margin-left:  69vw;
+        margin-left: 69vw;
         top: 12.5vw;
         left: 0.5vw;
         font-size: 11.2vw;
         color: darkgoldenrod;
-        
+
 
     }
-    .button-link {
+    
+    .nav-button{
         z-index: 100;
         display: inline-block;
         padding: 3px 12px;
@@ -129,6 +155,20 @@
         text-decoration: none;
         cursor: pointer;
         font-size: 15px;
+        font-weight: bold;
+    }
+    .nav-button-link {
+        z-index: 100;
+        display: inline-block;
+        padding: 3px 12px;
+        background-color: white;
+        color: black;
+        border: none;
+        border-radius: 2vw;
+        text-decoration: none;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bold;
     }
 
 
@@ -140,6 +180,7 @@
         justify-content: flex-end;
         gap: 1rem;
     }
+
     .nav button {
         opacity: 1;
         transition: opacity 0.2s ease-in-out;
@@ -206,7 +247,7 @@
         font-size: 1.2rem;
         font-weight: bold;
         color: #fff;
-        background-color:#f3c2c2;
+        background-color: #f3c2c2;
         border: none;
         border-radius: 4px;
         padding: 1rem 2rem;
@@ -214,6 +255,5 @@
         transition: background-color 0.2s ease-in-out;
     }
 
-    
 
 </style>

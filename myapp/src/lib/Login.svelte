@@ -3,12 +3,14 @@
     // import googleLogo from '../../public/Google_Logo.svg'
     import {
         // createUsers,
-        // loginUser,
+        loginUser,
         findEmail,
+        createUser
     } from './ApiServices/usersApiService';
     import {onMount} from "svelte";
-    import {Button} from "flowbite-svelte";
-    import LoadingIndicator from './LoadingIndicator.svelte'
+    import {signedInStore} from "../stores/stores";
+
+    let LoadingIndicator
     import {scale} from 'svelte/transition'
 
     export let handleShowLogin
@@ -26,17 +28,11 @@
     let shrinkFirstNameLabel = false
     let shrinkLastNameLabel = false
 
-    // const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [firstName, setFirstName] = useState('');
-    // const [lastName, setLastName] = useState('');
-    // const [DOB, setDOB] = useState<Date | null>(null);
-    // const [seen, setSeen] = useState(false);
-    // const [login, setLogin] = useState(false);
-    // const [register, setRegister] = useState(false);
-    // const [loggedIn, setLoggedIn] = useState(false);
-    // const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-    // const dispatch = useDispatch()
+
+    async function useLoadingIndicator() {
+        const module = await import ('./LoadingIndicator.svelte')
+        LoadingIndicator = module.default
+    }
 
     async function emailExists(email: string) {
         try {
@@ -49,7 +45,7 @@
         }
     }
 
-    async function handleLogin(e) {
+    async function handleContinueWithEmail() {
 
         // check if email exists
         // if email exists set setLogin and setSeen to true
@@ -57,7 +53,7 @@
 
         // if email does not exist
         // set setRegister to true
-        e.preventDefault();
+        await useLoadingIndicator()
         loading = true
         const result = await emailExists(email)
         loading = false
@@ -71,33 +67,37 @@
         }
     }
 
-    async function handleLoginOrRegister(event) {
-        if (hasAccount) {
-            try {
-                const user = await loginUser({email, password});
-                document.cookie = `token=${user.token}; path=/`;
-                cookieStorage();
-                // console.log(user);
-                console.log('Login successful');
-                // props.toggleSignIn();
-            } catch (error) {
-                console.log(error)
-            }
-        } else if (register) {
-            try {
-                await handleRegistration();
-                // // setting the userId in local storage
-                // const cookieValue = document.cookie.split('.')[1];
-                // const decodedValue = JSON.parse(atob(cookieValue));
-                // localStorage.setItem('userId', decodedValue.id);
-                // props.toggleSignIn();
-                cookieStorage();
-                // props.toggle();
-            } catch (error) {
-                console.log(error);
-            }
+    async function handleLogin() {
+        try {
+            loading = true
+            const user = await loginUser({email, password});
+            document.cookie = `token=${user.token}; path=/`;
+            cookieStorage();
+            // console.log(user);
+            console.log('Login successful');
+            signedInStore.set(true)
+            loading = false
+            handleShowLogin()
+        } catch (error) {
+            console.log(error)
         }
+
     }
+
+    // async function handleRegister() {
+    //     try {
+    //         await handleRegistration();
+    //         // // setting the userId in local storage
+    //         // const cookieValue = document.cookie.split('.')[1];
+    //         // const decodedValue = JSON.parse(atob(cookieValue));
+    //         // localStorage.setItem('userId', decodedValue.id);
+    //         // props.toggleSignIn();
+    //         cookieStorage();
+    //         // props.toggle();
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // }
 
     function cookieStorage() {
         // setting the userId in local storage
@@ -153,24 +153,27 @@
     }
 
     async function handleRegistration() {
-        // e.preventDefault();
-        if (register) {
+        try {
+            const newUser = await createUser({
+                email,
+                password,
+                firstName,
+                lastName
+            });
+            console.log('Registration successful');
             try {
-                const newUser = await createUsers({
-                    email,
-                    password,
-                    firstName,
-                    lastName,
-                });
-                console.log('Registration successful');
+                await handleLogin()
+                console.log('UserLoggedIn');
             } catch (error) {
-                console.log(error);
+                console.log(error)
             }
+        } catch (error) {
+            console.log(error);
         }
     }
 
     function handleGoogleSignin() {
-        window.location.href = 'http://localhost:3010/auth/google';
+        window.location.href = 'https://terra-sounds-backend.fly.dev/auth/google';
     }
 
     function handleSignout() {
@@ -182,7 +185,7 @@
     }
 
     onMount(() => {
-        fetch('http://localhost:3010/auth/google/callback')
+        fetch('https://terra-sounds-backend.fly.dev/auth/google/callback')
             .then((response) => {
 
                 if (response.ok) {
@@ -220,13 +223,13 @@
                     </label>
                 {/if}
                 <input on:focusout={handleOutsideEmailClick} on:focusin={handleEmailInputClick} type="text"
-                       id="email" bind:value={email} required/>
+                       id="email" bind:value={email}/>
             </div>
             {#if loading}
-                <LoadingIndicator></LoadingIndicator>
+                <svelte:component this={LoadingIndicator}></svelte:component>
             {:else}
                 <button
-                        class="continueButton" on:click={handleLogin}>Continue
+                        class="continueButton" on:click={handleContinueWithEmail}>Continue
                 </button>
             {/if}
 
@@ -236,15 +239,13 @@
                 <div class="dividerRight"></div>
             </div>
 
-            <button class="googleBtn" onClick={handleGoogleSignin}>
+            <button class="googleBtn" on:click={handleGoogleSignin}>
                 <img src='../../src/avatas/Google_Logo.svg' alt="google logo"
                      width={25} height={25} style={{ marginRight: '10px' }}/>
                 Sign in with Google
             </button>
         {:else}
-            <button class='backButton' on:click={handleBackButton}>
-                <img   width={25} height={25} src ='../../src/avatas/backArrow.svg'>
-            </button>
+
             {#if hasAccount}
                 <div class='header'>
                     <h2 class="headerText">Log in</h2>
@@ -266,7 +267,7 @@
                                bind:value={password} required/>
                     </div>
                 </div>
-                <button class='continueButton' type="submit">Continue</button>
+                <button class='continueButton' on:click={handleLogin}>Continue</button>
             {:else}
                 <div class="header">
                     <h2 class="headerText">Sign up</h2>
@@ -338,14 +339,19 @@
                         </div>
                     </div>
                 </div>
-                <button class='continueButton' type="submit">Continue</button>
+                <button class='continueButton' on:click={handleRegistration}>Continue</button>
             {/if}
         {/if}
         {#if initial}
             <button class='closeButton' on:click={handleShowLogin}>
                 X
             </button>
+        {:else}
+            <button class='backButton' on:click={handleBackButton}>
+                <img width={25} height={25} src='../../src/avatas/backArrow.svg'>
+            </button>
         {/if}
+
     </form>
 </div>
 
@@ -365,7 +371,8 @@
         top: 15px;
         left: 15px;
     }
-    .backButton{
+
+    .backButton {
         position: absolute;
         background: none;
         border: none;
@@ -373,6 +380,7 @@
         top: 12px;
         left: 15px;
     }
+
     .popup {
         position: absolute;
         z-index: 300;
@@ -381,7 +389,7 @@
         width: 500px;
         height: 500px;
         background-color: white;
-        border-radius: 1vw;
+        border-radius: 14px;
     }
 
     .popup-login {

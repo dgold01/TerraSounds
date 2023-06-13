@@ -1,17 +1,21 @@
 <script lang="ts">
-
-    import {searchNotLocal} from "../stores/stores";
-
+    
+    let searchNotLocal
+    
     let value = '';
+
+    async function loadSearchNotLocal() {
+        const module = await import ('./routingFunctions/routingFunctions')
+        searchNotLocal = module.searchNotLocal
+    }
+    
 </script>
-
-
 <form>
     <label for="default-search"></label>
     <div class="relative">
         <input bind:value type="search" id="default-search" placeholder="city name" required>
-        <button on:click={()=>searchNotLocal(value)} type="submit"><img class='imageButton'
-                                                                        src="../../src/avatas/earthButton.png">
+        <button on:click={async ()=>{ await loadSearchNotLocal(); searchNotLocal(value)}} type="submit"><img class='imageButton'
+                                                                                                             src="../../src/avatas/earthButton.png">
         </button>
 
     </div>

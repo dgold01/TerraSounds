@@ -1,40 +1,27 @@
 <script lang="ts">
     import HomePage from "../lib/HomePage.svelte";
-    import Login from "../lib/Login.svelte";
-    import {goto} from '$app/navigation';
-    import {getUsers} from "../lib/ApiServices/usersApiService";
-    import {setContext} from 'svelte'
+    let Login
+    let CitySearch
     let showLogin = false;
     let showSearch = false;
-
-    // let userId
-
-
-    // setContext('handleSignIn',handleSignIn)
-
-    // setContext('showSignUp',showSignUp)
-    // setContext('showSignIn',showSignIn)
-
-
-    // async function handleSignIn(email) {
-    //     let users = []
-    //     users = await getUsers()
-    //     users.forEach((user)=>{
-    //         if (user.email === email) userId = user._id
-    //     })
-    //     if(!userId) return console.log('no email found')
-    // 
-    //     $signedInStore = true
-    //     showLoginPage = false;
-    //     showSignUpPage = false;
-    //     showHomePage = true
-    //    
-    // }
-
-    function chooseCityHandleClick() {
+    
+    async function loadCitySearch(){
+        const module = await import ('../lib/CitySearch.svelte')
+        CitySearch = module.default
+    }
+    
+    async function loadLogin(){
+            const module = await import ('../lib/Login.svelte')
+            Login = module.default
+    }
+    
+    async function chooseCityHandleClick() {
+        await loadCitySearch()
         showSearch = true
     }
-    function handleShowLogin(){
+    
+    async function handleShowLogin() {
+        await loadLogin()
         showLogin = !showLogin;
     }
 
@@ -45,13 +32,8 @@
     /*}*/
 </style>
 
-<!--{if showLoginPage}-->
-<!--    <LoginPage ></LoginPage>-->
-<!--{:else if showSignUpPage}-->
-<!--    <SignUpPage  ></SignUpPage>-->
 
-
-<HomePage {showSearch} {handleShowLogin} {chooseCityHandleClick}></HomePage>
+<HomePage {CitySearch} {showSearch} {handleShowLogin} {chooseCityHandleClick}></HomePage>
 {#if showLogin}
-    <Login {handleShowLogin}></Login>
+   <Login {handleShowLogin}></Login>
 {/if}

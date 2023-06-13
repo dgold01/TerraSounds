@@ -1,4 +1,4 @@
-import {getEventsFromApi, getSavedEventsFromModel, saveEventToModel, deleteEventFromModel} from '../models/eventsModel';
+import {getEventsFromApi, getSavedEventsFromModel, saveEventToModel, deleteEventFromModel} from '../models/eventsModel.js';
 import { Request, Response } from 'express';
 import mongoose from "mongoose";
 

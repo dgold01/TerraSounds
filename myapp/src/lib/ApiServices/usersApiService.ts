@@ -13,14 +13,44 @@ export async function findEmail(email: string) {
     return emailR
 }
 
-export async function saveUser(name, email, password) {
-    console.log(name)
-    const user = {
-       name,
-       email,
-        password
+export async function loginUser(user: any) {
+    const response = await fetch('https://terra-sounds-backend.fly.dev/users/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user),
+    });
+
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error('Error: ' + response.statusText);
     }
-    console.log(user)
+}
+
+
+
+
+// export async function checkFor
+// fetch('http://localhost:3010/auth/google/callback')
+//     .then((response) => {
+//
+//         if (response.ok) {
+//             return response.json();
+//         } else {
+//             throw new Error('Not logged in');
+//         }
+//     })
+//     .then((data) => {
+//         setUserProfile(data);
+//         setLoggedIn(true);
+//     })
+//     .catch(() => {
+//         setLoggedIn(false);
+//     });
+
+export async function createUser(user:any) {
     const response = await fetch ('https://terra-sounds-backend.fly.dev/users',{
         method: "POST",
         headers:{

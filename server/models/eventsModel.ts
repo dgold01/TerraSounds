@@ -1,7 +1,7 @@
 
 import {getJson} from 'serpapi'
-import db from '../databases/eventsDatabase'
-const ApiKey = 'f1dbde83e021d9d72719ab5c09300b3cc6882d4261616b5c6f2665ed4cb02a7d'
+import db from '../databases/eventsDatabase.js'
+const ApiKey = '39874278852d0eaf15097f5672066c23c747e110757533c71c9931ee242e3cac'
 
 
 

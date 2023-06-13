@@ -8,22 +8,36 @@
     "./dist/index.js": "./dist/index.js"
   },
   "scripts": {
-    "start": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
     "dev": "tsc-watch --onSuccess \"npm run watch\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.4",
+    "passport": "^0.6.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-jwt": "^4.0.1",
+    "passport-local": "^1.0.0",
     "serpapi": "^1.1.1"
   },
   "devDependencies": {
+    "@flydotio/dockerfile": "^0.2.7",
+    "@types/bcrypt": "^5.0.0",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^18.15.11",
+    "@types/passport-google-oauth20": "^2.0.11",
+    "@types/passport-jwt": "^3.0.8",
+    "@types/passport-local": "^1.0.35",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",
     "tsc-watch": "^6.0.0",

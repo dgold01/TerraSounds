@@ -20,6 +20,7 @@
 <style>
 
     .LoadingIndicator {
+        border-radius: 14px;
         display: flex;
         background: rgba(0,0,0,0.2);
         justify-content: center;
