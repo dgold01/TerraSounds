@@ -1,8 +1,7 @@
 <script lang="ts">
     import HomePage from "../lib/HomePage.svelte";
-    let Login
+    import NavBar from "../lib/NavBar.svelte";
     let CitySearch
-    let showLogin = false;
     let showSearch = false;
     
     async function loadCitySearch(){
@@ -10,20 +9,13 @@
         CitySearch = module.default
     }
     
-    async function loadLogin(){
-            const module = await import ('../lib/Login.svelte')
-            Login = module.default
-    }
+   
     
     async function chooseCityHandleClick() {
         await loadCitySearch()
         showSearch = true
     }
     
-    async function handleShowLogin() {
-        await loadLogin()
-        showLogin = !showLogin;
-    }
 
 </script>
 <style>
@@ -33,7 +25,5 @@
 </style>
 
 
-<HomePage {CitySearch} {showSearch} {handleShowLogin} {chooseCityHandleClick}></HomePage>
-{#if showLogin}
-   <Login {handleShowLogin}></Login>
-{/if}
+<NavBar></NavBar>
+<HomePage {CitySearch} {showSearch} {chooseCityHandleClick}></HomePage>

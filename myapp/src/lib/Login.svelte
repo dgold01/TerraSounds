@@ -70,6 +70,7 @@
     async function handleLogin() {
         try {
             loading = true
+            console.log(email,password,'hi')
             const user = await loginUser({email, password});
             document.cookie = `token=${user.token}; path=/`;
             cookieStorage();
@@ -83,21 +84,7 @@
         }
 
     }
-
-    // async function handleRegister() {
-    //     try {
-    //         await handleRegistration();
-    //         // // setting the userId in local storage
-    //         // const cookieValue = document.cookie.split('.')[1];
-    //         // const decodedValue = JSON.parse(atob(cookieValue));
-    //         // localStorage.setItem('userId', decodedValue.id);
-    //         // props.toggleSignIn();
-    //         cookieStorage();
-    //         // props.toggle();
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    
 
     function cookieStorage() {
         // setting the userId in local storage
@@ -184,24 +171,26 @@
         // props.toggle();
     }
 
-    onMount(() => {
-        fetch('https://terra-sounds-backend.fly.dev/auth/google/callback')
-            .then((response) => {
-
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Not logged in');
-                }
-            })
-            .then((data) => {
-                // setUserProfile(data);
-                // setLoggedIn(true);
-            })
-            .catch(() => {
-                // setLoggedIn(false);
-            })
-    });
+    // onMount(() => {
+    //     fetch('https://terra-sounds-backend.fly.dev/auth/google/callback')
+    //         .then((response) => {
+    //
+    //             if (response.ok) {
+    //                 return response.json();
+    //             } else {
+    //                 throw new Error('Not logged in');
+    //             }
+    //         })
+    //         .then((data) => {
+    //             // setUserProfile(data);
+    //             // setLoggedIn(true);
+    //         })
+    //         .catch(() => {
+    //             // setLoggedIn(false);
+    //         })
+    // });
+    
+    
 </script>
 
 <div class={initial ? 'popup' : (register ? 'popup-register' : 'popup-login')}>

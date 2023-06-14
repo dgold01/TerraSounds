@@ -1,13 +1,10 @@
 <script lang="ts">
-
-    import {signedInStore} from "../stores/stores.js";
- 
-
+    
+    
     let searchLocal
 
     export let showSearch
     export let chooseCityHandleClick
-    export let handleShowLogin
     export let CitySearch
 
     import {onMount} from "svelte";
@@ -16,13 +13,8 @@
     let screenWidth
     let screenHeight
 
-    function getCookie(name) {
-        const value = "; " + document.cookie;
-        const parts = value.split("; " + name + "=");
-        if (parts.length === 2) return parts.pop().split(";").shift();
-    }
+   
     
- 
     
     async function loadSearchLocal() {
         const module = await import ('./routingFunctions/routingFunctions')
@@ -30,11 +22,7 @@
     }
 
     onMount(() => {
-        const token = getCookie('token');
-        const userId = localStorage.getItem('userId')
-        if(userId || token){
-            signedInStore.set(true)
-        }
+        
         screenWidth = window.innerWidth
         screenHeight = window.innerHeight
         window.addEventListener('resize', () => {
@@ -49,15 +37,7 @@
         <h1 class="logo1">Terra</h1>
         <h1 class="logo2">S</h1>
         <h1 class="logo3">unds</h1>
-        <div class="nav">
-            {#if $signedInStore}
-                <a class="nav-button-link" href="/SavedEvents">Saved Events</a>
-                <a class="nav-button-link" href="/Profile">Account</a>
-            {:else}
-                <button class="nav-button" on:click={handleShowLogin}>Login</button>
-                <button class="nav-button" on:click={handleShowLogin}>Sign up</button>
-            {/if}
-        </div>
+       
     </div>
 
     <div class="hero">
@@ -82,7 +62,8 @@
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+    
+    
 
     .container {
         display: flex;
@@ -144,70 +125,7 @@
 
     }
     
-    .nav-button{
-        z-index: 100;
-        display: inline-block;
-        padding: 3px 12px;
-        background-color: white;
-        color: black;
-        border: none;
-        border-radius: 2vw;
-        text-decoration: none;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: bold;
-    }
-    .nav-button-link {
-        z-index: 100;
-        display: inline-block;
-        padding: 3px 12px;
-        background-color: white;
-        color: black;
-        border: none;
-        border-radius: 2vw;
-        text-decoration: none;
-        cursor: pointer;
-        font-size: 15px;
-        font-weight: bold;
-    }
-
-
-    .nav {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-    }
-
-    .nav button {
-        opacity: 1;
-        transition: opacity 0.2s ease-in-out;
-    }
-
-    .nav button:hover {
-        opacity: 0.8;
-    }
-
-    .nav a.active {
-        opacity: 1;
-        font-weight: bold;
-    }
-
-    .nav a {
-        opacity: 1;
-        transition: opacity 0.2s ease-in-out;
-    }
-
-    .nav a:hover {
-        opacity: 0.8;
-    }
-
-    .nav a.active {
-        opacity: 1;
-        font-weight: bold;
-    }
+   
 
     .hero {
 

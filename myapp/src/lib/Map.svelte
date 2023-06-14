@@ -3,9 +3,10 @@
     import {onMount} from 'svelte';
     import {GoogleSpin} from "svelte-loading-spinners";
     import {getEvents} from "./ApiServices/eventsApiService";
-    import NavBar from "./NavBar.svelte";
+    import SideNav from "./SideNav.svelte";
     import EventWindow from "./EventWindow.svelte";
     import {cityStore, isLocalStore, isLightStore} from '../stores/stores'
+    import NavBar from "$lib/NavBar.svelte";
 
     let isLight = false;
     let map;
@@ -677,6 +678,7 @@
     </div>
 {:else}
     <NavBar></NavBar>
+    <SideNav></SideNav>
     {#if showEvent}
         <EventWindow handleXclick={handleClickX} id='eventWindow' event={currentEvent}></EventWindow>
     {/if}
